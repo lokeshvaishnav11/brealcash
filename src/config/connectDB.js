@@ -37,7 +37,9 @@ const connection = mysql.createPool({
   host: '127.0.0.1',  // or '127.0.0.1'
   user: 'avaitorgame',
   password: 'ApnaStrongPassword',
-  database: 'avaitorgame'
+  database: 'gameavitor'
 });
+
+//8888877777
 
 module.exports = connection;
