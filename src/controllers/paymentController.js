@@ -244,6 +244,144 @@ const addManualUPIPaymentRequest = async (req, res) => {
 }
 
 
+const addManualUPIPaymentRequest2 = async (req, res) => {
+    try {
+        const data = req.body
+        let auth = req.cookies.auth;
+        let moneyp = parseInt(data.money);
+        console.log("ip", req.ip)
+        // let utr = parseInt(data.utr);
+        const minimumMoneyAllowed = parseInt(process.env.MINIMUM_MONEY)
+
+        if (!moneyp || !(moneyp >= minimumMoneyAllowed)) {
+            return res.status(400).json({
+                message: `Money is Required and it should be PKR${minimumMoneyAllowed} or above!`,
+                status: false,
+                timeStamp: timeNow,
+            })
+        }
+
+        // if (!utr && utr?.length != 12) {
+        //     return res.status(400).json({
+        //         message: `UPI Ref No. or UTR is Required And it should be 12 digit long`,
+        //         status: false,
+        //         timeStamp: timeNow,
+        //     })
+        // }
+
+        const user = await getUserDataByAuthToken(auth)
+
+        console.log("user", user)
+
+        const phone = user.phone;
+
+        // recharge table se sirf count
+        const [result] = await connection.query(
+            `SELECT COUNT(*) AS total
+   FROM recharge
+   WHERE phone = ?
+     AND status = 1`,
+            [phone]
+        );
+
+        const totalRechargeCount = result[0]?.total || 0;
+
+        console.log("totalRechargeCount", totalRechargeCount)
+
+        const pendingRechargeList = await rechargeTable.getRecordByPhoneAndStatus({ phone: user.phone, status: PaymentStatusMap.PENDING, type: PaymentMethodsMap.UPI_GATEWAY })
+
+        if (pendingRechargeList.length !== 0) {
+            const deleteRechargeQueries = pendingRechargeList.map(recharge => {
+                return rechargeTable.cancelById(recharge.id)
+            });
+
+            await Promise.all(deleteRechargeQueries)
+        }
+
+        var orderId = getRechargeOrderId()
+
+
+        const url = 'https://www.lg-pay.com/api/order/create';
+        const key = 'LfqJcpuHgw9sYMoCB0Ya5yhTiVfvkUAX'
+        // 'VN8NHNnda0Rn72UqeIvTwhQuEV2yXVcn';
+        // const key = 'O2UyHC65eofVs2xsGCjDzY2qVbybifea';
+
+        const app_id = 'PKR3313'
+        // "YD4569"
+        // 'YD4555';
+        //
+
+        const addon1 = user.username + "#" + user.phone + "#" + user.username + "@gmail.com" + "#" + totalRechargeCount;
+        console.log(addon1)
+        const params = {
+            app_id,
+            trade_type: 'PKRPH-EASY',      //INRUPI         // test channel for collection
+            order_sn: orderId,  // unique order number
+            money: moneyp * 100,                // order amount
+            notify_url: 'https://real-cash365.club/callback', // your callback URL
+            return_url: 'https://real-cash365.club/home', // user redirect URL
+            subject: 'Test Order',
+            user_id: addon1,
+            ip: req.ip        // order description
+        };
+
+        const sign = md5_sign(params, key);
+        const payload = { ...params, sign };
+
+        const lgres = await http_post(url, payload);
+        console.log('LG-Pay Response:', lgres);
+        if (lgres.status == 1) {
+            const newRecharge = {
+                orderId: orderId,
+                transactionId: 'NULL',
+                utr: "23456",
+                phone: user.phone,
+                money: moneyp,
+                type: PaymentMethodsMap.UPI_MANUAL,
+                status: 0,
+                today: rechargeTable.getCurrentTimeForTodayField(),
+                url: "NULL",
+                time: timeNow,
+            }
+
+
+
+
+            const recharge = await rechargeTable.create(newRecharge)
+
+            return res.status(200).json({
+                message: 'Payment Requested successfully Your Balance will update shortly!',
+                url: lgres?.data.pay_url,
+                recharge: recharge,
+                status: true,
+                timeStamp: timeNow,
+            });
+
+        } else {
+            return res.status(200).json({
+                message: 'some problem in payment Gatway , Please try Again !s',
+                url: lgres?.data.pay_url,
+                recharge: recharge,
+                status: false,
+                timeStamp: timeNow,
+            });
+        }
+
+
+
+
+    } catch (error) {
+        console.log(error)
+
+        res.status(500).json({
+            status: false,
+            message: "Something went wrong!",
+            timestamp: timeNow
+        })
+    }
+}
+
+
 const getIntCasinoUrl = async(req,res) =>{
     try {
         let auth = req.cookies.auth;
@@ -1452,6 +1590,7 @@ module.exports = {
     bondPayCallback,
     addManualUPIPaymentRequesttwo,
     watchPaysCallback,
-    getIntCasinoUrl
+    getIntCasinoUrl,
+    addManualUPIPaymentRequest2
 
 }

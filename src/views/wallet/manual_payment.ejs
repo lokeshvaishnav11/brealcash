@@ -355,7 +355,8 @@
         }
 
         .upi-box img {
-            width: 80px;
+               width: 144px;
+               height: 69px;
         }
 
         .upi-box p {
@@ -400,17 +401,17 @@
             <!-- UPI OPTIONS -->
             <div class="upi-container">
                 <div class="upi-box" id="upi1">
-                    <!-- <img src="/images/upi.png" alt="UPI 1"> -->
-                    <p>JAZZ </p>
-                     <p>Click here for Payment </p>
+                    <img src="/images/Jazz.jpeg" alt="UPI 1">
+                    <!-- <p>JAZZ </p>
+                     <p>Click here for Payment </p> -->
                 </div>
 
-                <!-- <div class="upi-box" id="upi3">
-                    <img src="/images/upi.png" alt="UPI 2">
-                    <p>UPI 2</p>
+                 <div class="upi-box" id="upi3">
+                    <img src="/images/Easypaisa.jpeg" alt="UPI 2">
+                    <!-- <p>UPI 2</p> -->
                 </div>
 
-                <-- NEW UPI3 BOX -->
+           
                 <!-- <div class="upi-box" id="upi2">
                     <img src="/images/upi.png" alt="UPI 3">
                     <p>UPI 3</p>
@@ -483,10 +484,7 @@
             callPaymentApi("/wallet/paynow/manual_upi_request"); // LG PAY
         });
 
-        document.getElementById("upi2").addEventListener("click", () => {
-            callPaymentApi("/wallet/paynow/manual_upi_request/watch"); // BOND PAY
-        });
-
+    
         document.getElementById("upi3").addEventListener("click", () => {
             callPaymentApi("/wallet/paynow/watch_now"); 
         });
