@@ -126,7 +126,7 @@ const register = async (req, res) => {
       })
    }
 
-   if (username.length < 9 || username.length > 10 || !isNumber(username)) {
+   if (username.length < 9 || username.length > 11 || !isNumber(username)) {
       return res.status(200).json({
          message: "phone error",
          status: false,
