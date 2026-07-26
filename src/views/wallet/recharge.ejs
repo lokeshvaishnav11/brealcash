@@ -246,7 +246,7 @@
         }
 
         .upi-section::after {
-            content: 'INSTANT DEPOSIT';
+            content: 'DEPÓSITO INSTANTÂNEO';
             position: absolute;
             bottom: 10px;
             right: 15px;
@@ -508,7 +508,7 @@
         }
 
         .selected-amount-display::before {
-            /* content: 'PKR'; */
+            /* content: 'R$'; */
             position: absolute;
             top: 50%;
             left: 10px;
@@ -774,12 +774,12 @@
         <header class="main-header">
             <div class="header-left">
                 <!-- IMPORTANT: Update logo path -->
-                <img src="/images/banners/logon.png" alt="Aviator Logo" class="header-logo" />
+                <img src="/images/banners/logon.png" alt="Logo Aviator" class="header-logo" />
             </div>
             <div class="header-right">
                 <button class="deposit-balance-btn">
                     <i class="fa-solid fa-wallet"></i>
-                    PKR<span id="balance-display">0.00</span> DEPOSIT <!-- Added space -->
+                    R$<span id="balance-display">0.00</span> DEPÓSITO <!-- Added space -->
                 </button>
 
             </div>
@@ -788,9 +788,9 @@
 
         <!-- Tabs -->
         <nav class="page-tabs">
-            <a href="/recharge" class="tab-item active">DEPOSIT</a>
+            <a href="/recharge" class="tab-item active">DEPÓSITO</a>
             <!-- IMPORTANT: Update withdraw link if needed -->
-            <a href="/wallet/withdrawal" class="tab-item">WITHDRAW</a>
+            <a href="/wallet/withdrawal" class="tab-item">SAQUE</a>
         </nav>
 
         <!-- UPI Section -->
@@ -800,36 +800,36 @@
 
         <!-- Recharge Form Section -->
         <section class="recharge-form-section">
-            <p class="minimum-recharge">MINIMUM RECHARGE: <span id="min-recharge-amount">500</span></p>
+            <p class="minimum-recharge">RECARGA MÍNIMA: <span id="min-recharge-amount">500</span></p>
 
             <div class="amount-input-group" style="border: 1px solid #FB8466;">
                 <input type="number" id="amount-input" placeholder="500+" value="1000" class="amount-input"
                     inputmode="numeric" />
-                <span class="currency-symbol">PKR</span>
+                <span class="currency-symbol">R$</span>
                 <button id="deposit-button" class="deposit-action-btn"
                     style="background: linear-gradient(90deg, #00c853 0%, #00e676 25%, #7b1fa2 60%, #ab47bc 100%)">
-                    DEPOSIT
+                    DEPÓSITO
                 </button>
             </div>
 
             <div class="preset-amounts" id="preset-amounts-container">
+                <button class="preset-amount-btn" data-amount="25">25</button>
+                <button class="preset-amount-btn active" data-amount="30">30</button>
+                <button class="preset-amount-btn" data-amount="50">50</button>
+                <button class="preset-amount-btn" data-amount="70">70</button>
+                <button class="preset-amount-btn" data-amount="90">90</button>
+                <button class="preset-amount-btn" data-amount="100">100</button>
                 <button class="preset-amount-btn" data-amount="500">500</button>
-                <button class="preset-amount-btn active" data-amount="1000">1000</button>
-                <button class="preset-amount-btn" data-amount="2000">2000</button>
-                <button class="preset-amount-btn" data-amount="5000">5000</button>
-                <button class="preset-amount-btn" data-amount="10000">10000</button>
-                <button class="preset-amount-btn" data-amount="20000">20000</button>
-                <button class="preset-amount-btn" data-amount="50000">50000</button>
-                <button class="preset-amount-btn" data-amount="95000">95000</button>
+                <button class="preset-amount-btn" data-amount="1000">1000</button>
             </div>
 
-            <p class="selected-amount-display">Recharge Amount Select: PKR<span id="selected-amount-value">1000</span></p>
+            <p class="selected-amount-display">Valor de Recarga Selecionado: R$<span id="selected-amount-value">25</span></p>
         </section>
 
         <!-- Footer -->
         <footer class="main-footer">
             <!-- IMPORTANT: Update footer logo path -->
-            <img src="/images/banners/logon.png" alt="Aviator Logo" class="footer-logo" />
+            <img src="/images/banners/logon.png" alt="Logo Aviator" class="footer-logo" />
             <div class="social-icons">
                 <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
@@ -843,9 +843,9 @@
         <div class="previous_payment_background" id="previous_payment_popup" style="display: none;">
             <!-- Initially hidden -->
             <div class="previous_payment_popup">
-                <h3 class="previous_payment_popup_message">You have a pending payment left. What do you want to do?</h3>
-                <button class="pay_now" id="pay_now">Pay Now</button>
-                <button class="cancel_payment" id="cancel_payment">Cancel and Create New Deposit</button>
+                <h3 class="previous_payment_popup_message">Você tem um pagamento pendente. O que deseja fazer?</h3>
+                <button class="pay_now" id="pay_now">Pagar Agora</button>
+                <button class="cancel_payment" id="cancel_payment">Cancelar e Criar Novo Depósito</button>
             </div>
         </div>
 
@@ -854,15 +854,15 @@
             <!-- Always show user info and menu -->
             <div class="sidebar-header">
                 <div style="display: flex; align-items: center; gap: 10px">
-                    <img src="/images/avatar.svg" alt="User" />
+                    <img src="/images/avatar.svg" alt="Usuário" />
                     <div>
                         <div>
                             <!-- Display username or 'User' if undefined -->
-                            <%= typeof username !=='undefined' ? username : 'User' %>
+                            <%= typeof username !=='undefined' ? username : 'Usuário' %>
                         </div>
                         <div style="font-size: 14px; color: #9ca3af">
                             <!-- Display formatted money or '0.00' if undefined/false -->
-                            PKR<%= (typeof money==='number' ) ? money.toLocaleString('en-IN') : (money ? money : '0.00' )
+                            R$<%= (typeof money==='number' ) ? money.toLocaleString('en-IN') : (money ? money : '0.00' )
                                 %>
                         </div>
                     </div>
@@ -872,14 +872,14 @@
             </div>
 
             <!-- Always show menu items -->
-            <a href="/wallet/recharge" class="menu-item">💰 DEPOSIT FUNDS</a>
-            <a href="/wallet/withdrawal" class="menu-item">💵 WITHDRAW</a>
-            <a href="/myProfile" class="menu-item">👤 PERSONAL DETAILS</a>
-            <a href="/wallet/rechargerecord" class="menu-item">📄 TRANSACTION HISTORY</a>
-            <a href="/levels" class="menu-item">📈 LEVEL MANAGEMENT</a>
-            <a href="/referral" class="menu-item">🎁 REFERRAL</a>
+            <a href="/wallet/recharge" class="menu-item">💰 DEPOSITAR FUNDOS</a>
+            <a href="/wallet/withdrawal" class="menu-item">💵 SACAR</a>
+            <a href="/myProfile" class="menu-item">👤 DADOS PESSOAIS</a>
+            <a href="/wallet/rechargerecord" class="menu-item">📄 HISTÓRICO DE TRANSAÇÕES</a>
+            <a href="/levels" class="menu-item">📈 GERENCIAMENTO DE NÍVEL</a>
+            <a href="/referral" class="menu-item">🎁 INDICAÇÃO</a>
             <!-- The Sign Out link might now always be visible, adjust its behavior if needed -->
-            <a href="/home" id="openLoginPopupBtn" class="menu-item">🚪 SIGN OUT</a>
+            <a href="/home" id="openLoginPopupBtn" class="menu-item">🚪 SAIR</a>
 
             <!-- Keep the E-KYC check if you still want it conditional -->
             <% if (typeof ekyc !=='undefined' && (ekyc==false || ekyc==0)) { %>
@@ -910,11 +910,11 @@
 
         // --- Configuration ---
         // IMPORTANT: Set your actual minimum or fetch it from backend if dynamic
-        let minimumMoneyAllowed = 500;
+        let minimumMoneyAllowed = 25;
         // You might want to fetch this value from the backend if it changes
         // Example: minimumMoneyAllowed = parseInt('<%= MinimumMoney || 500 %>');
 
-        let currentAmount = 1000; // Default amount
+        let currentAmount = 25; // Default amount
 
         // --- Functions ---
 
@@ -925,17 +925,17 @@
 
         // Function to update balance display
         const updateTotalBalance = async () => {
-            balanceDisplay.textContent = "Loading...";
+            balanceDisplay.textContent = "Carregando...";
             try {
                 const response = await axios.get("/api/webapi/GetUserInfo"); // Ensure this endpoint is correct
                 const user = response?.data?.data;
                 const balance = user?.money_user ?? 0;
                 balanceDisplay.textContent = parseFloat(balance).toFixed(2); // Format to 2 decimal places
             } catch (error) {
-                console.error("Error fetching balance:", error);
-                balanceDisplay.textContent = "Error";
+                console.error("Erro ao buscar saldo:", error);
+                balanceDisplay.textContent = "Erro";
                 // Optional: Show an alert to the user
-                // alertMessage("Could not update balance. Please try again later.");
+                // alertMessage("Não foi possível atualizar o saldo. Tente novamente mais tarde.");
             }
         };
 
@@ -971,7 +971,7 @@
             const finalAmount = parseInt(amountInput.value, 10);
 
             if (isNaN(finalAmount) || finalAmount < minimumMoneyAllowed) {
-                alertMessage(`Minimum deposit amount is PKR${minimumMoneyAllowed}. Please enter a valid amount.`);
+                alertMessage(`O valor mínimo de depósito é R$${minimumMoneyAllowed}. Digite um valor válido.`);
                 amountInput.focus(); // Focus the input field
                 return;
             }
@@ -979,19 +979,19 @@
             // **IMPORTANT**: Confirm this is the correct function for your main UPI flow.
             // If your backend uses a different endpoint/method for the main UPI button shown,
             // call that specific function instead (e.g., handleUPIGatewayPaymentRequest).
-            console.log(`Initiating deposit for PKR${finalAmount} via Manual UPI`);
+            console.log(`Iniciando depósito de R$${finalAmount} via UPI manual`);
             // Disable button temporarily? Add loading state?
             depositButton.disabled = true;
-            depositButton.textContent = 'Processing...';
+            depositButton.textContent = 'Processando...';
             try {
                 await handleManualUPIPaymentRequest(finalAmount);
                 // Redirect happens in the function below, so no need to re-enable here
             } catch (error) {
                 // Re-enable button if the request function itself throws an error
-                console.error("Deposit initiation failed:", error);
-                alertMessage("Could not start the deposit process. Please try again.");
+                console.error("Falha ao iniciar o depósito:", error);
+                alertMessage("Não foi possível iniciar o processo de depósito. Tente novamente.");
                 depositButton.disabled = false;
-                depositButton.textContent = 'DEPOSIT';
+                depositButton.textContent = 'DEPÓSITO';
             }
 
         };
@@ -1008,34 +1008,34 @@
 
         // Optional: UPI Gateway Request (Example - Keep if you have another UPI option)
         const handleUPIGatewayPaymentRequest = async (moneyAmount) => {
-            console.log(`Initiating deposit for PKR${moneyAmount} via UPI Gateway`);
+            console.log(`Iniciando depósito de R$${moneyAmount} via gateway UPI`);
             depositButton.disabled = true;
-            depositButton.textContent = 'Redirecting...';
+            depositButton.textContent = 'Redirecionando...';
             try {
                 const response = await axios.post("/wallet/paynow/upi", { money: moneyAmount }); // Ensure endpoint is correct
                 const data = response?.data;
 
-                if (!data) throw new Error("Empty response from server.");
+                if (!data) throw new Error("Resposta vazia do servidor.");
 
                 if (data.status === false) {
-                    alertMessage(data.message || "Deposit request failed via gateway.");
+                    alertMessage(data.message || "Falha na solicitação de depósito pelo gateway.");
                     depositButton.disabled = false; // Re-enable on failure
-                    depositButton.textContent = 'DEPOSIT';
+                    depositButton.textContent = 'DEPÓSITO';
                     return;
                 }
 
                 if (data?.urls?.web_url) {
                     window.location.href = data.urls.web_url; // Redirect to payment gateway
                 } else {
-                    alertMessage("Payment URL not found in response.");
+                    alertMessage("URL de pagamento não encontrada na resposta.");
                     depositButton.disabled = false; // Re-enable if URL missing
-                    depositButton.textContent = 'DEPOSIT';
+                    depositButton.textContent = 'DEPÓSITO';
                 }
             } catch (error) {
-                console.error("UPI Gateway Error:", error);
-                alertMessage("An error occurred while initiating the gateway deposit.");
+                console.error("Erro no gateway UPI:", error);
+                alertMessage("Ocorreu um erro ao iniciar o depósito pelo gateway.");
                 depositButton.disabled = false; // Re-enable on error
-                depositButton.textContent = 'DEPOSIT';
+                depositButton.textContent = 'DEPÓSITO';
             }
         };
 
@@ -1072,7 +1072,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Set minimum amount text and input placeholder
             minimumRechargeSpan.textContent = minimumMoneyAllowed;
-            amountInput.placeholder = `PKR${minimumMoneyAllowed}+`; // Set placeholder dynamically
+            amountInput.placeholder = `R$${minimumMoneyAllowed}+`; // Set placeholder dynamically
 
             updateSelectedAmount(currentAmount); // Set initial state (e.g., for 1000)
             updateTotalBalance(); // Fetch and display balance on load

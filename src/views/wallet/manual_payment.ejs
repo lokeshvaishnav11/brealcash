@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Select Payment Gateway</title>
+    <title>Selecionar Gateway de Pagamento</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -170,7 +170,7 @@
         /* PAYMENT CARDS CONTAINER */
         .upi-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
         }
 
@@ -197,6 +197,12 @@
         .upi-card.easypaisa {
             border: 1px solid #7c3aed;
             box-shadow: inset 0 0 15px rgba(124, 58, 237, 0.05);
+        }
+
+        /* PIX SPECIFIC */
+        .upi-card.pix {
+            border: 1px solid #32BCAD;
+            box-shadow: inset 0 0 15px rgba(50, 188, 173, 0.08);
         }
 
         .upi-card:hover {
@@ -275,6 +281,11 @@
             color: #a855f7;
         }
 
+        .pix .feature-icon-box {
+            background: rgba(50, 188, 173, 0.15);
+            color: #32BCAD;
+        }
+
         .feature-item span {
             font-size: 9px;
             color: #94a3b8;
@@ -303,6 +314,10 @@
 
         .easypaisa .pay-btn {
             background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+        }
+
+        .pix .pay-btn {
+            background: linear-gradient(90deg, #32BCAD, #0d9488);
         }
 
         .pay-btn:hover {
@@ -391,17 +406,17 @@
             <div class="header-icon">
                 <i class="fa-solid fa-shield-halved"></i>
             </div>
-            <h2>Select Payment Gateway</h2>
-            <p>Choose your preferred payment method</p>
+            <h2>Selecionar Gateway de Pagamento</h2>
+            <p>Escolha seu método de pagamento preferido</p>
         </header>
 
         <!-- Main Card Section -->
         <div class="content-card">
             <!-- Amount Input -->
             <div class="amount-section">
-                <label>Amount</label>
+                <label>Valor</label>
                 <div class="amount-input-box">
-                    <span class="currency-symbol">₹</span>
+                    <span class="currency-symbol">R$</span>
                     <input type="text" value="<%= Amount %>" disabled />
                     <div class="edit-icon">
                         <i class="fa-solid fa-pen"></i>
@@ -413,67 +428,94 @@
             <div class="section-title">
                 <div class="title-left">
                     <i class="fa-regular fa-credit-card"></i>
-                    <span>Select Payment Method</span>
+                    <span>Selecionar Método de Pagamento</span>
                 </div>
                 <div class="secure-tag">
                     <i class="fa-solid fa-circle-check"></i>
-                    <span>100% Secure</span>
+                    <span>100% Seguro</span>
                 </div>
             </div>
 
             <!-- UPI / Gateway Container -->
             <div class="upi-container">
                 <!-- JazzCash Card -->
-                <div class="upi-card jazzcash">
-                    <div class="hot-badge">HOT</div>
+                <!-- <div class="upi-card jazzcash">
+                    <div class="hot-badge">EM ALTA</div>
                     <img src="/images/Jazz.jpeg" alt="JazzCash" class="brand-logo" />
                     <div class="card-title">JAZZCASH</div>
-                    <div class="card-subtitle">Fast • Secure • Reliable</div>
+                    <div class="card-subtitle">Rápido • Seguro • Confiável</div>
 
                     <div class="features-grid">
                         <div class="feature-item">
                             <div class="feature-icon-box"><i class="fa-solid fa-bolt"></i></div>
-                            <span>Instant</span>
+                            <span>Instantâneo</span>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon-box"><i class="fa-solid fa-shield"></i></div>
-                            <span>Secure</span>
+                            <span>Seguro</span>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon-box"><i class="fa-solid fa-headset"></i></div>
-                            <span>Support</span>
+                            <span>Suporte</span>
                         </div>
                     </div>
 
                     <button class="pay-btn" id="upi1">
-                        Pay Now <i class="fa-solid fa-arrow-right"></i>
+                        Pagar Agora <i class="fa-solid fa-arrow-right"></i>
                     </button>
-                </div>
+                </div> -->
 
                 <!-- EasyPaisa Card -->
-                <div class="upi-card easypaisa">
-                    <div class="hot-badge">HOT</div>
+                <!-- <div class="upi-card easypaisa">
+                    <div class="hot-badge">EM ALTA</div>
                     <img src="/images/Easypaisa.jpeg" alt="EasyPaisa" class="brand-logo" />
                     <div class="card-title">EASYPAISA</div>
-                    <div class="card-subtitle">Fast • Secure • Reliable</div>
+                    <div class="card-subtitle">Rápido • Seguro • Confiável</div>
 
                     <div class="features-grid">
                         <div class="feature-item">
                             <div class="feature-icon-box"><i class="fa-solid fa-bolt"></i></div>
-                            <span>Instant</span>
+                            <span>Instantâneo</span>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon-box"><i class="fa-solid fa-shield"></i></div>
-                            <span>Secure</span>
+                            <span>Seguro</span>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon-box"><i class="fa-solid fa-headset"></i></div>
-                            <span>Support</span>
+                            <span>Suporte</span>
                         </div>
                     </div>
 
                     <button class="pay-btn" id="upi3">
-                        Pay Now <i class="fa-solid fa-arrow-right"></i>
+                        Pagar Agora <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div> -->
+
+                <!-- PIX Card -->
+                <div class="upi-card pix">
+                    <div class="hot-badge">EM ALTA</div>
+                    <img src="/images/pixn.png" alt="PIX" class="brand-logo" />
+                    <div class="card-title">PIX</div>
+                    <div class="card-subtitle">Rápido • Seguro • Confiável</div>
+
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon-box"><i class="fa-solid fa-bolt"></i></div>
+                            <span>Instantâneo</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-box"><i class="fa-solid fa-shield"></i></div>
+                            <span>Seguro</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-box"><i class="fa-solid fa-headset"></i></div>
+                            <span>Suporte</span>
+                        </div>
+                    </div>
+
+                    <button class="pay-btn" id="upi_pix">
+                        Pagar Agora <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
@@ -486,8 +528,8 @@
                     <i class="fa-solid fa-lock"></i>
                 </div>
                 <div class="footer-text">
-                    <h4>Secure Payment</h4>
-                    <p>Your payment information is safe with us</p>
+                    <h4>Pagamento Seguro</h4>
+                    <p>Suas informações de pagamento estão seguras conosco</p>
                 </div>
             </div>
             <div class="footer-right-icon">
@@ -519,16 +561,16 @@
 
         const callPaymentApi = async (url) => {
             try {
-                alertMessage("Processing...");
+                alertMessage("Processando...");
 
                 const response = await axios.post(url, { money: amount });
 
                 if (!response?.data || response.data.status === false) {
-                    alertMessage(response?.data?.message || "Failed!");
+                    alertMessage(response?.data?.message || "Falha!");
                     return;
                 }
 
-                alertMessage("Redirecting...");
+                alertMessage("Redirecionando...");
 
                 if (response.data.paymentUrl) {
                     window.location.href = response.data.paymentUrl;
@@ -540,11 +582,11 @@
                     return;
                 }
 
-                alertMessage("Payment URL not found!");
+                alertMessage("URL de pagamento não encontrada!");
 
             } catch (err) {
                 console.error(err);
-                alertMessage("Something went wrong!");
+                alertMessage("Algo deu errado!");
             }
         };
 
@@ -555,6 +597,10 @@
 
         document.getElementById("upi3").addEventListener("click", () => {
             callPaymentApi("/wallet/paynow/watch_now"); 
+        });
+
+        document.getElementById("upi_pix").addEventListener("click", () => {
+            callPaymentApi("/wallet/paynow/pix_request"); 
         });
     </script>
 
