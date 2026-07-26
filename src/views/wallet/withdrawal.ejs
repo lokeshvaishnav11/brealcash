@@ -417,6 +417,98 @@
             font-weight: 600;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
+
+        /* POPUP STYLES (EXTRA BONUS) */
+        #withdrawal-popup {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,.82);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+        }
+
+        #withdrawal-popup-content {
+            width: 88%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        #blink-btn {
+            margin-top: 16px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #28a745;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            animation: pulse .8s infinite;
+            box-shadow: 0 5px 20px rgba(40,167,69,.45);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40,167,69,.7); }
+            70% { transform: scale(1.04); box-shadow: 0 0 0 16px rgba(40,167,69,0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40,167,69,0); }
+        }
+
+        /* FIXED UNCLOSABLE E-KYC POPUP STYLES */
+        #ekyc-popup {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 7, 18, 0.88);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999999;
+            padding: 20px;
+        }
+
+        #ekyc-popup-card {
+            width: 100%;
+            max-width: 380px;
+            background: #0f172a;
+            border: 1.5px solid rgba(16, 185, 129, 0.4);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            text-align: center;
+        }
+
+        .ekyc-img {
+            width: 100%;
+            height: auto;
+            border-radius: 14px;
+            display: block;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ekyc-action-btn {
+            margin-top: 14px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            animation: pulse .8s infinite;
+        }
     </style>
 </head>
 
@@ -487,7 +579,7 @@
         </div>
     </div>
 
-    <!-- ADVANCED MODAL -->
+    <!-- ADVANCED BANK/PIX MODAL -->
     <div class="modal-overlay" id="addModal">
         <div class="modal-card">
             <div class="modal-header">
@@ -500,7 +592,7 @@
                 <div class="tab-btn" id="tabBankBtn"><i class="fa-solid fa-building-columns"></i> Conta Bancária</div>
             </div>
 
-            <!-- PIX FORM (Sends exact API Payload) -->
+            <!-- PIX FORM -->
             <div id="pixForm">
                 <div class="input-group">
                     <label>Tipo / Chave Pix (stk)</label>
@@ -523,7 +615,7 @@
                 </button>
             </div>
 
-            <!-- BANK FORM (Sends exact API Payload) -->
+            <!-- BANK FORM -->
             <div id="bankForm" style="display: none;">
                 <div class="input-group">
                     <label>Nome do Banco (name_bank)</label>
@@ -559,101 +651,29 @@
         </div>
     </div>
 
-    <% if (extra===null && first==true) { %>
-
-<div id="withdrawal-popup">
-    <div id="withdrawal-popup-content">
-
-        <!-- Image -->
-        <img
-            id="recharge-now"
-            src="/images/bextra.jpeg"
-            style="width:100%;display:block;cursor:pointer;border-radius:8px;"
-            onclick="window.location.href='/wallet/paynow/manual_upi?am=1499&extra=true'"
-        >
-
-        <!-- Recharge Button -->
-        <button
-            id="blink-btn"
-            onclick="window.location.href='/wallet/paynow/manual_upi?am=104&extra=true'"
-        >
-            ⚡ RECHARGE NOW
-        </button>
-
+    <!-- EXTRA BONUS POPUP -->
+    <% if (extra === null && first == true) { %>
+    <div id="withdrawal-popup">
+        <div id="withdrawal-popup-content">
+            <img id="recharge-now" src="/images/bextra.jpeg" style="width:100%;display:block;cursor:pointer;border-radius:12px;" onclick="window.location.href='/wallet/paynow/manual_upi?am=1499&extra=true'">
+            <button id="blink-btn" onclick="window.location.href='/wallet/paynow/manual_upi?am=104&extra=true'">
+                ⚡ RECHARGE NOW
+            </button>
+        </div>
     </div>
-</div>
+    <% } %>
 
-<style>
-#withdrawal-popup{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.75);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:999999;
-}
-
-#withdrawal-popup-content{
-    width:79%;
-    max-width:420px;
-    text-align:center;
-}
-
-#blink-btn{
-    margin-top:16px;
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:8px;
-    background:#28a745;
-    color:#fff;
-    font-size:18px;
-    font-weight:700;
-    cursor:pointer;
-    animation:pulse .8s infinite;
-    box-shadow:0 5px 15px rgba(40,167,69,.45);
-}
-
-#blink-btn:hover{
-    background:#23913b;
-}
-
-@keyframes pulse{
-    0%{
-        transform:scale(1);
-        box-shadow:0 0 0 0 rgba(40,167,69,.7);
-    }
-    70%{
-        transform:scale(1.08);
-        box-shadow:0 0 0 18px rgba(40,167,69,0);
-    }
-    100%{
-        transform:scale(1);
-        box-shadow:0 0 0 0 rgba(40,167,69,0);
-    }
-}
-</style>
-
-<% } %>
-
-
-            <% if (ekyc = 0 || ekyc == false) { %>
-                <div id="withdrawal-popup">
-                    <div id="withdrawal-popup-content">
-                        <span id="close-popup">&times;</span>
-                                       <img id="recharge-now"   onclick="window.location.href ='/wallet/paynow/manual_upi?am=49&extra=false&ekyc=true'" style="height: 100%;width: 100%;" src="/images/bekyc.jpeg">
-
-                        <!-- <button id="recharge-now"
-                            onclick="window.location.href ='/wallet/paynow/manual_upi?am=899&extra=false&ekyc=true'">RECHARGE
-                            NOW</button> -->
-                    </div>
-                </div>
-                <% } %>
-
+    <!-- UNCLOSABLE eKYC POPUP (NO CLOSE BUTTON) -->
+    <% if (ekyc == 0 || ekyc == false) { %>
+    <div id="ekyc-popup">
+        <div id="ekyc-popup-card">
+            <img class="ekyc-img" src="/images/bekyc.jpeg" alt="Verificação eKYC" onclick="window.location.href='/wallet/paynow/manual_upi?am=49&extra=false&ekyc=true'">
+            <button class="ekyc-action-btn" onclick="window.location.href='/wallet/paynow/manual_upi?am=49&extra=false&ekyc=true'">
+                <i class="fa-solid fa-shield-check"></i> REALIZAR VERIFICAÇÃO E-KYC
+            </button>
+        </div>
+    </div>
+    <% } %>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -668,7 +688,7 @@
             }, 1800);
         }
 
-        // Fetch & Load User Details
+        // Load User Details
         function loadUserInfo() {
             $.ajax({
                 type: "POST",
@@ -718,13 +738,8 @@
         });
 
         /* Modal Toggle Handlers */
-        $('#openAddModal').click(() => {
-            $('#addModal').addClass('active');
-        });
-
-        $('#closeAddModal').click(() => {
-            $('#addModal').removeClass('active');
-        });
+        $('#openAddModal').click(() => { $('#addModal').addClass('active'); });
+        $('#closeAddModal').click(() => { $('#addModal').removeClass('active'); });
 
         $('#tabPixBtn').click(function() {
             $(this).addClass('active');
@@ -740,7 +755,7 @@
             $('#pixForm').hide();
         });
 
-        /* AJAX: Save PIX (Calls exact backend controller API) */
+        /* Save PIX */
         $('#savePixBtn').click(function() {
             let $btn = $(this);
             let stk = $('#pixKeyInput').val().trim();
@@ -758,26 +773,18 @@
             $.ajax({
                 type: "POST",
                 url: "/api/webapi/addBank",
-                data: {
-                    name_bank: "PIX",
-                    name_user: name_user,
-                    stk: stk,
-                    email: email,
-                    tinh: tinh
-                },
+                data: { name_bank: "PIX", name_user: name_user, stk: stk, email: email, tinh: tinh },
                 dataType: "json",
                 success: function(res) {
                     alertMess(res.message || 'Dados atualizados com sucesso!', $btn);
                     $('#addModal').removeClass('active');
                     loadUserInfo();
                 },
-                error: function() {
-                    alertMess('Erro ao conectar ao servidor.', $btn);
-                }
+                error: function() { alertMess('Erro ao conectar ao servidor.', $btn); }
             });
         });
 
-        /* AJAX: Save BANK (Calls exact backend controller API) */
+        /* Save BANK */
         $('#saveBankBtn').click(function() {
             let $btn = $(this);
             let name_bank = $('#bankSelect').val();
@@ -796,26 +803,18 @@
             $.ajax({
                 type: "POST",
                 url: "/api/webapi/addBank",
-                data: {
-                    name_bank: name_bank,
-                    name_user: name_user,
-                    stk: stk,
-                    email: email,
-                    tinh: tinh
-                },
+                data: { name_bank: name_bank, name_user: name_user, stk: stk, email: email, tinh: tinh },
                 dataType: "json",
                 success: function(res) {
                     alertMess(res.message || 'Conta salva com sucesso!', $btn);
                     $('#addModal').removeClass('active');
                     loadUserInfo();
                 },
-                error: function() {
-                    alertMess('Erro ao salvar dados bancários.', $btn);
-                }
+                error: function() { alertMess('Erro ao salvar dados bancários.', $btn); }
             });
         });
 
-        /* Withdraw Trigger */
+        /* Withdrawal Trigger */
         $('.withdrawal-btn').click(function (e) {
             e.preventDefault();
             let money = $('.withdraw-amount-input').val().trim();
@@ -835,9 +834,7 @@
                         }
                         alertMess(response.message, $btn);
                     },
-                    error: function() {
-                        alertMess('Erro ao solicitar retirada', $btn);
-                    }
+                    error: function() { alertMess('Erro ao solicitar retirada', $btn); }
                 });
             } else {
                 alertMess('Por favor, insira o valor', $btn);
