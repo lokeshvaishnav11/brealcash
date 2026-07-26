@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const CbetHistory = () => {
   // const apiUrl = "http://localhost:3000";
-  const apiUrl = "https://real-cash365.club/";
+  const apiUrl = "https://real-cash365.live/";
 
   
 

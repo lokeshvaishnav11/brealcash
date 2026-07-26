@@ -125,7 +125,7 @@ function Chicken() {
 
 
   // const apiUrl = "http://localhost:3000"
-  const apiUrl = "https://real-cash365.club";
+  const apiUrl = "https://real-cash365.live";
 
 
   // useEffect(() => {
