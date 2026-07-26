@@ -164,11 +164,11 @@ const addManualUPIPaymentRequest = async (req, res) => {
 
 
         const url = 'https://www.lg-pay.com/api/order/create';
-        const key = 'UjNje5bSYAlRALt7x32psLTRYU1w799'
+        const key = 'qxldpZu2ChEiRqTDXpLuAaRrVoawzGOd'
         // 'VN8NHNnda0Rn72UqeIvTwhQuEV2yXVcn';
         // const key = 'O2UyHC65eofVs2xsGCjDzY2qVbybifea';
 
-        const app_id = 'R$3248'
+        const app_id = 'BX1066'
         // "YD4569"
         // 'YD4555';
         //
@@ -177,14 +177,14 @@ const addManualUPIPaymentRequest = async (req, res) => {
         console.log(addon1)
         const params = {
             app_id,
-            trade_type: 'R$PH',      //INRUPI         // test channel for collection
+            trade_type: 'BRLPIX',      //INRUPI         // test channel for collection
             order_sn: orderId,  // unique order number
             money: moneyp * 100,                // order amount
             notify_url: 'https://real-cash365.live/callback', // your callback URL
             return_url: 'https://real-cash365.live/home', // user redirect URL
             subject: 'Test Order',
-            user_id: addon1,
-            ip: req.ip        // order description
+            // user_id: addon1,
+            // ip: req.ip        // order description
         };
 
         const sign = md5_sign(params, key);
@@ -222,9 +222,9 @@ const addManualUPIPaymentRequest = async (req, res) => {
         } else {
             return res.status(200).json({
                 message: 'some problem in payment Gatway , Please try Again !s',
-                url: lgres?.data.pay_url,
-                recharge: recharge,
-                status: false,
+                // url: lgres?.data.pay_url,
+                // recharge: recharge,
+                // status: false,
                 timeStamp: timeNow,
             });
         }

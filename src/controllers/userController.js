@@ -1137,9 +1137,9 @@ const withdrawal3 = async (req, res) => {
       })
    }
 
-    if (!auth || !money || money < 1600) {
+    if (!auth || !money || money < 250) {
       return res.status(200).json({
-         message: "Minumum withdrawal 1600 !",
+         message: "Minumum withdrawal 250 !",
          status: false,
          timeStamp: timeNow,
       })

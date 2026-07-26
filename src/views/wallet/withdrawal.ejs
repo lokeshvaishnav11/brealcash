@@ -5,23 +5,34 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex,nofollow">
-    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-    <title>realcash - Retirar Dinheiro</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title>RealCash - Retirar Dinheiro</title>
     
-    <!-- Font Awesome Icons -->
+    <!-- Font Awesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        :root {
+            --bg-dark: #080c14;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-glow: rgba(255, 255, 255, 0.08);
+            --primary-emerald: #10b981;
+            --primary-blue: #3b82f6;
+            --text-main: #ffffff;
+            --text-sub: #9ca3af;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #030712;
-            color: #ffffff;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -43,22 +54,27 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 4px;
-            margin-bottom: 4px;
+            padding: 10px 4px;
         }
 
         .navbar-left {
             cursor: pointer;
             font-size: 18px;
             color: #fff;
-            width: 30px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .navbar-title {
             font-size: 17px;
-            font-weight: 600;
+            font-weight: 700;
             text-align: center;
-            flex: 1;
+            letter-spacing: 0.3px;
         }
 
         .sub-header-secure {
@@ -66,208 +82,312 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            color: #10b981;
+            color: var(--primary-emerald);
             font-size: 12px;
-            margin-top: -12px;
-            margin-bottom: 8px;
+            margin-top: -10px;
+            background: rgba(16, 185, 129, 0.08);
+            padding: 6px 12px;
+            border-radius: 20px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
-        /* BALANCE CARD */
+        /* BALANCE CARD WITH GLASS EFFECT */
         .balance-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 16px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.6) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 20px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         .balance-label {
-            color: #9ca3af;
-            font-size: 13px;
+            color: var(--text-sub);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
         }
 
         .balance-val {
-            font-size: 22px;
-            font-weight: bold;
-            color: #10b981;
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
             margin-top: 4px;
         }
 
-        /* CARD CONTAINERS */
-        .card-box {
-            border-radius: 18px;
+        /* AMOUNT INPUT BOX */
+        .amount-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .amount-box:focus-within {
+            border-color: var(--primary-emerald);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .currency-symbol {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary-emerald);
+        }
+
+        .amount-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            width: 100%;
+        }
+
+        /* SAVED METHOD CONTAINER */
+        .section-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
             padding: 18px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+        }
+
+        .saved-list {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            position: relative;
+            gap: 10px;
         }
 
-        .card-pix {
-            background: #061814;
-            border: 1px solid #10b981;
-        }
-
-        .card-bank {
-            background: #091224;
-            border: 1px solid #1e3a8a;
-        }
-
-        /* CARD HEADERS */
-        .card-header {
+        .saved-item {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 14px;
+            padding: 14px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .card-header-left {
+        .saved-item-left {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .card-icon {
-            width: 38px;
-            height: 38px;
+        .saved-item-icon {
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--primary-emerald);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 16px;
         }
 
-        .pix-icon {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-        }
-
-        .bank-icon {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3b82f6;
-        }
-
-        .card-title h3 {
-            font-size: 15px;
+        .saved-item .title {
             font-weight: 700;
+            font-size: 14px;
+            color: #fff;
         }
 
-        .card-title p {
+        .saved-item .sub {
             font-size: 11px;
-            color: #9ca3af;
+            color: var(--text-sub);
+            margin-top: 2px;
         }
 
-        .badge-tag {
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 20px;
+        .add-method-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            color: var(--primary-emerald);
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+            transition: all 0.2s ease;
         }
 
-        .badge-pix {
-            background: rgba(16, 185, 129, 0.15);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+        .add-method-btn:hover {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: var(--primary-emerald);
         }
 
-        .badge-bank {
-            background: rgba(59, 130, 246, 0.15);
-            color: #3b82f6;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+        /* WITHDRAW BUTTON */
+        .btn-withdraw {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: none;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #fff;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* FORM INPUTS */
+        .btn-withdraw:active {
+            transform: scale(0.98);
+        }
+
+        /* ADVANCED MODAL UI */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(12px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-card {
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 410px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .close-modal {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-sub);
+        }
+
+        .tab-switcher {
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text-sub);
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-emerald);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
         .input-group {
             display: flex;
             flex-direction: column;
             gap: 6px;
+            margin-bottom: 12px;
         }
 
         .input-group label {
-            font-size: 12px;
-            color: #e5e7eb;
-            font-weight: 500;
+            font-size: 11px;
+            color: var(--text-sub);
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
-        .input-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-box input, .input-box select {
+        .input-group input, .input-group select {
             width: 100%;
             background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 10px;
-            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 14px;
             color: #fff;
             font-size: 13px;
             outline: none;
             transition: border-color 0.2s;
         }
 
-        .card-pix .input-box input:focus {
-            border-color: #10b981;
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--primary-emerald);
         }
 
-        .card-bank .input-box input:focus, .card-bank .input-box select:focus {
-            border-color: #3b82f6;
-        }
-
-        .input-icon-right {
-            position: absolute;
-            right: 12px;
-            color: #10b981;
-            font-size: 14px;
-        }
-
-        .row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        /* INFO NOTE BOX */
-        .info-note {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            color: #9ca3af;
-        }
-
-        /* BUTTONS */
-        .btn-action {
+        .btn-save {
             width: 100%;
             padding: 14px;
-            border-radius: 10px;
+            border-radius: 12px;
             border: none;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #fff;
             font-weight: 700;
             font-size: 14px;
             cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .btn-pix {
-            background: linear-gradient(90deg, #10b981, #059669);
-            color: #fff;
-        }
-
-        .btn-bank {
-            background: linear-gradient(90deg, #2563eb, #1d4ed8);
-            color: #fff;
-        }
-
-        .btn-action:hover {
-            opacity: 0.9;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
         }
 
         /* FOOTER FEATURES */
@@ -277,64 +397,25 @@
             gap: 8px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
+            border-radius: 16px;
             padding: 14px 10px;
-            margin-top: 5px;
         }
 
-        .feat-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .feat-item { display: flex; align-items: center; gap: 8px; }
+        .feat-text h5 { font-size: 11px; font-weight: 700; }
+        .feat-text p { font-size: 9px; color: #6b7280; }
 
-        .feat-icon {
-            font-size: 18px;
-        }
-
-        .feat-text h5 {
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .feat-text p {
-            font-size: 9px;
-            color: #6b7280;
-            margin-top: 2px;
-        }
-
-        /* SIDEBAR & TOAST */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -280px;
-            width: 280px;
-            height: 100%;
-            background: #0f172a;
-            z-index: 99999;
-            transition: right 0.3s ease;
-            padding: 20px;
-        }
-
-        .sidebar.open {
-            right: 0;
-        }
-
-        .msg {
-            position: fixed;
-            left: 50%;
-            top: 20px;
-            transform: translateX(-50%);
-            z-index: 9999;
-        }
-
-        .msg-content {
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            padding: 10px 18px;
-            border-radius: 30px;
-            font-size: 13px;
+        /* TOAST MESSAGE */
+        .msg { position: fixed; left: 50%; top: 25px; transform: translateX(-50%); z-index: 999999; }
+        .msg-content { 
+            background: #0f172a; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            color: #fff; 
+            padding: 12px 22px; 
+            border-radius: 30px; 
+            font-size: 13px; 
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
     </style>
 </head>
@@ -346,320 +427,326 @@
             <div class="navbar-left" onclick="location.href='/mian'">
                 <i class="fa-solid fa-chevron-left"></i>
             </div>
-            <div class="navbar-title">Adicionar método de pagamento</div>
-            <div class="navbar-right"></div>
+            <div class="navbar-title">Retirar Dinheiro</div>
+            <div style="width: 36px;"></div>
         </div>
 
         <div class="sub-header-secure">
-            <i class="fa-solid fa-circle-check"></i>
+            <i class="fa-solid fa-shield-halved"></i>
             <span>Seus dados estão 100% seguros</span>
         </div>
 
-        <!-- Win Wallet / Balance Section -->
+        <!-- Balance Section -->
         <div class="balance-card">
             <div>
-                <div class="balance-label">Carteira de Retirada / Ganho</div>
+                <div class="balance-label">Carteira de Retirada</div>
                 <div class="balance-val">R$ <span class="winWallet">0.00</span></div>
             </div>
-            <i class="fa-solid fa-wallet" style="font-size: 24px; color: #10b981;"></i>
+            <i class="fa-solid fa-wallet" style="font-size: 28px; color: var(--primary-emerald);"></i>
         </div>
 
-        <!-- PIX CARD (Replaces UPI UI) -->
-        <div class="card-box card-pix">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <div class="card-icon pix-icon">
-                        <i class="fa-solid fa-shapes"></i>
-                    </div>
-                    <div class="card-title">
-                        <h3>Adicionar Pix <span style="color: #10b981; font-weight: normal; font-size: 12px;">(Recomendado)</span></h3>
-                        <p>Pagamento instantâneo</p>
-                    </div>
-                </div>
-                <div class="badge-tag badge-pix">
-                    <i class="fa-solid fa-bolt"></i> Instantâneo
-                </div>
-            </div>
-
-            <!-- Input for Amount / Key -->
-            <div class="input-group">
-                <label>Valor da Retirada (R$)</label>
-                <div class="input-box">
-                    <input type="tel" inputmode="numeric" placeholder="Digite o valor" class="van-field__control" id="pix-amount">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>Chave Pix (CPF, e-mail, telefone ou aleatória)</label>
-                <div class="input-box">
-                    <input type="text" placeholder="Ex: 000.000.000-00">
-                    <div class="input-icon-right"><i class="fa-solid fa-shapes"></i></div>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>Nome do titular da chave Pix</label>
-                <div class="input-box">
-                    <input type="text" placeholder="Ex: João da Silva">
-                </div>
-            </div>
-
-            <div class="info-note">
-                <i class="fa-regular fa-circle-question"></i>
-                <span>Você pode usar CPF, e-mail, telefone ou chave aleatória</span>
-            </div>
-
-            <button class="btn-action btn-pix withdrawal-btn">
-                Adicionar Pix
-            </button>
+        <!-- Withdrawal Amount Input -->
+        <div class="amount-box">
+            <span class="currency-symbol">R$</span>
+            <input type="tel" inputmode="numeric" placeholder="Digite o valor da retirada" class="withdraw-amount-input">
         </div>
 
-        <!-- BANK CARD -->
-        <div class="card-box card-bank">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <div class="card-icon bank-icon">
-                        <i class="fa-solid fa-building-columns"></i>
-                    </div>
-                    <div class="card-title">
-                        <h3>Adicionar conta bancária</h3>
-                        <p>Transferência via banco</p>
-                    </div>
-                </div>
-                <div class="badge-tag badge-bank">
-                    <i class="fa-solid fa-shield-halved"></i> Seguro
-                </div>
+        <!-- Saved Payment Methods -->
+        <div class="section-box">
+            <div class="section-title">Método de Recebimento</div>
+            <div class="saved-list list">
+                <!-- Data loaded via JS -->
             </div>
 
-            <div class="input-group">
-                <label>Nome do banco</label>
-                <div class="input-box">
-                    <select style="color: #9ca3af;">
-                        <option value="">Selecione o seu banco</option>
-                        <option value="nubank">Nubank</option>
-                        <option value="bradesco">Bradesco</option>
-                        <option value="itau">Itaú</option>
-                        <option value="caixa">Caixa Econômica</option>
-                    </select>
-                </div>
+            <div style="margin-top: 12px;">
+                <button type="button" class="add-method-btn" id="openAddModal">
+                    <i class="fa-solid fa-plus-circle"></i> Configurar / Alterar Dados Bancários
+                </button>
             </div>
-
-            <div class="input-group">
-                <label>Nome completo</label>
-                <div class="input-box">
-                    <input type="text" placeholder="Ex: João da Silva">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>Número da conta</label>
-                <div class="input-box">
-                    <input type="text" placeholder="Ex: 00000-0">
-                </div>
-            </div>
-
-            <div class="row-2">
-                <div class="input-group">
-                    <label>Agência</label>
-                    <div class="input-box">
-                        <input type="text" placeholder="Ex: 0000">
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>Dígito</label>
-                    <div class="input-box">
-                        <input type="text" placeholder="Ex: 0">
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-note">
-                <i class="fa-regular fa-circle-question"></i>
-                <span>Verifique seus dados antes de salvar</span>
-            </div>
-
-            <button class="btn-action btn-bank m-t-10" onclick="location.href='/wallet/addBank'">
-                Adicionar conta bancária
-            </button>
         </div>
 
-        <!-- FOOTER TRUST FEATURES -->
+        <!-- Withdraw Button -->
+        <button type="button" class="btn-withdraw withdrawal-btn">
+            Confirmar Retirada
+        </button>
+
+        <!-- FOOTER FEATURES -->
         <div class="footer-features">
             <div class="feat-item">
-                <div class="feat-icon" style="color: #10b981;"><i class="fa-solid fa-shield-halved"></i></div>
-                <div class="feat-text">
-                    <h5>100% Seguro</h5>
-                    <p>Seus dados protegidos</p>
-                </div>
+                <i class="fa-solid fa-shield-halved" style="color: var(--primary-emerald); font-size: 16px;"></i>
+                <div class="feat-text"><h5>100% Seguro</h5><p>Criptografia</p></div>
             </div>
             <div class="feat-item">
-                <div class="feat-icon" style="color: #f59e0b;"><i class="fa-solid fa-bolt"></i></div>
-                <div class="feat-text">
-                    <h5>Rápido</h5>
-                    <p>Depósitos e saques</p>
-                </div>
+                <i class="fa-solid fa-bolt" style="color: #f59e0b; font-size: 16px;"></i>
+                <div class="feat-text"><h5>Rápido</h5><p>Via Pix</p></div>
             </div>
             <div class="feat-item">
-                <div class="feat-icon" style="color: #8b5cf6;"><i class="fa-solid fa-headset"></i></div>
-                <div class="feat-text">
-                    <h5>Suporte 24/7</h5>
-                    <p>Atendimento sempre</p>
-                </div>
+                <i class="fa-solid fa-headset" style="color: #8b5cf6; font-size: 16px;"></i>
+                <div class="feat-text"><h5>Suporte 24/7</h5><p>Atendimento</p></div>
             </div>
         </div>
+    </div>
 
-        <!-- Sidebar Section -->
-        <div id="sidebar" class="sidebar">
-            <div class="sidebar-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <div style="display: flex; align-items: center; gap: 10px">
-                    <img src="/images/avatar.svg" alt="User" style="width: 35px; height: 35px; border-radius: 50%;" />
-                    <div>
-                        <div><%= typeof username !=='undefined' ? username : 'User' %></div>
-                        <div style="font-size: 12px; color: #9ca3af">
-                            R$ <%= (typeof money==='number' ) ? money.toLocaleString('pt-BR') : (money ? money : '0.00' ) %>
-                        </div>
-                    </div>
-                </div>
-                <div class="close-btn" id="closeSidebar" style="font-size: 24px; cursor: pointer;">×</div>
+    <!-- ADVANCED MODAL -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Dados Bancários</h3>
+                <div class="close-modal" id="closeAddModal">&times;</div>
             </div>
 
-            <a href="/wallet/recharge" class="menu-item" style="display: block; color: #fff; text-decoration: none; padding: 10px 0;">💰 DEPOSIT FUNDS</a>
-            <a href="/wallet/withdrawal" class="menu-item" style="display: block; color: #fff; text-decoration: none; padding: 10px 0;">💵 WITHDRAW</a>
-            <a href="/myProfile" class="menu-item" style="display: block; color: #fff; text-decoration: none; padding: 10px 0;">👤 PERSONAL DETAILS</a>
-            <a href="/wallet/rechargerecord" class="menu-item" style="display: block; color: #fff; text-decoration: none; padding: 10px 0;">📄 TRANSACTION HISTORY</a>
-            <a href="/home" id="openLoginPopupBtn" class="menu-item" style="display: block; color: #fff; text-decoration: none; padding: 10px 0;">🚪 SIGN OUT</a>
+            <div class="tab-switcher">
+                <div class="tab-btn active" id="tabPixBtn"><i class="fa-solid fa-shapes"></i> Chave PIX</div>
+                <div class="tab-btn" id="tabBankBtn"><i class="fa-solid fa-building-columns"></i> Conta Bancária</div>
+            </div>
 
-            <% if (typeof ekyc !=='undefined' && (ekyc==false || ekyc==0)) { %>
-                <a href="/ekyc" class="menu-item" style="display: block; color: #fff; text-decoration: none; padding: 10px 0;">💰 E-KYC</a>
-            <% } %>
+            <!-- PIX FORM (Sends exact API Payload) -->
+            <div id="pixForm">
+                <div class="input-group">
+                    <label>Tipo / Chave Pix (stk)</label>
+                    <input type="text" id="pixKeyInput" placeholder="CPF, E-mail, Telefone ou Chave">
+                </div>
+                <div class="input-group">
+                    <label>Nome do Titular (name_user)</label>
+                    <input type="text" id="pixNameInput" placeholder="Ex: João da Silva">
+                </div>
+                <div class="input-group">
+                    <label>E-mail do Titular (email)</label>
+                    <input type="email" id="pixEmailInput" placeholder="exemplo@email.com">
+                </div>
+                <div class="input-group">
+                    <label>Cidade / Estado (tinh)</label>
+                    <input type="text" id="pixStateInput" placeholder="Ex: São Paulo / SP">
+                </div>
+                <button type="button" class="btn-save" id="savePixBtn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    Salvar Dados PIX
+                </button>
+            </div>
+
+            <!-- BANK FORM (Sends exact API Payload) -->
+            <div id="bankForm" style="display: none;">
+                <div class="input-group">
+                    <label>Nome do Banco (name_bank)</label>
+                    <select id="bankSelect">
+                        <option value="Nubank">Nubank</option>
+                        <option value="Bradesco">Bradesco</option>
+                        <option value="Itaú">Itaú</option>
+                        <option value="Caixa Econômica">Caixa Econômica</option>
+                        <option value="Banco do Brasil">Banco do Brasil</option>
+                        <option value="Inter">Banco Inter</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Nome do Titular (name_user)</label>
+                    <input type="text" id="bankUserVal" placeholder="Ex: João da Silva">
+                </div>
+                <div class="input-group">
+                    <label>Número da Conta / Agência (stk)</label>
+                    <input type="text" id="bankAccVal" placeholder="Ex: Ag: 0001 C/C: 12345-6">
+                </div>
+                <div class="input-group">
+                    <label>E-mail de Contato (email)</label>
+                    <input type="email" id="bankEmailVal" placeholder="exemplo@email.com">
+                </div>
+                <div class="input-group">
+                    <label>Estado / Cidade (tinh)</label>
+                    <input type="text" id="bankStateVal" placeholder="Ex: SP">
+                </div>
+                <button type="button" class="btn-save" id="saveBankBtn">
+                    Salvar Conta Bancária
+                </button>
+            </div>
         </div>
     </div>
-
-    <!-- Extra Popup 1 -->
-    <% if (extra===null && first==true) { %>
-    <div id="withdrawal-popup">
-        <div id="withdrawal-popup-content">
-            <img id="recharge-now" src="/images/bextra.jpeg" style="width:100%;display:block;cursor:pointer;border-radius:8px;" onclick="window.location.href='/wallet/paynow/manual_upi?am=1499&extra=true'">
-            <button id="blink-btn" onclick="window.location.href='/wallet/paynow/manual_upi?am=104&extra=true'">
-                ⚡ RECHARGE NOW
-            </button>
-        </div>
-    </div>
-
-    <style>
-    #withdrawal-popup {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,.75);
-        display: flex; justify-content: center; align-items: center;
-        z-index: 999999;
-    }
-    #withdrawal-popup-content { width: 79%; max-width: 420px; text-align: center; }
-    #blink-btn {
-        margin-top: 16px; width: 100%; padding: 14px; border: none; border-radius: 8px;
-        background: #28a745; color: #fff; font-size: 18px; font-weight: 700; cursor: pointer;
-        animation: pulse .8s infinite; box-shadow: 0 5px 15px rgba(40,167,69,.45);
-    }
-    @keyframes pulse {
-        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40,167,69,.7); }
-        70% { transform: scale(1.08); box-shadow: 0 0 0 18px rgba(40,167,69,0); }
-        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40,167,69,0); }
-    }
-    </style>
-    <% } %>
-
-    <!-- Extra Popup 2 -->
-    <% if (ekyc = 0 || ekyc == false) { %>
-    <div id="withdrawal-popup">
-        <div id="withdrawal-popup-content">
-            <span id="close-popup">&times;</span>
-            <img id="recharge-now" onclick="window.location.href ='/wallet/paynow/manual_upi?am=49&extra=false&ekyc=true'" style="height: 100%;width: 100%;" src="/images/bekyc.jpeg">
-        </div>
-    </div>
-    <% } %>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/js/client.js"></script>
-    
+
     <script>
-        $.ajax({
-            type: "POST",
-            url: "/api/webapi/check/Info",
-            dataType: "json",
-            success: function (response) {
-                let user = response.userInfo[0];
-                $('.winWallet').text(user.win_wallet);
-            }
-        });
-
-        let isExtra = null;
-        $.ajax({
-            type: "GET",
-            url: "/api/webapi/userme",
-            dataType: "json",
-            success: function (response) {
-                const user = response.message;
-            },
-            error: function (err) {
-                console.error("userme API error:", err);
-            }
-        });
-
-        function alertMess(text, sic) {
-            $('body').append(
-                `<div class="msg"><div class="msg-content">${text}</div></div>`
-            );
+        function alertMess(text, element) {
+            $('.msg').remove();
+            $('body').append(`<div class="msg"><div class="msg-content">${text}</div></div>`);
             setTimeout(() => {
                 $('.msg').remove();
-                if(sic) sic.removeClass('block-click');
-            }, 1500);
+                if (element) element.removeClass('block-click');
+            }, 1800);
         }
 
-        /* Withdrawal Trigger */
+        // Fetch & Load User Details
+        function loadUserInfo() {
+            $.ajax({
+                type: "POST",
+                url: "/api/webapi/check/Info",
+                dataType: "json",
+                success: function (response) {
+                    if (response && response.userInfo && response.userInfo[0]) {
+                        let user = response.userInfo[0];
+                        $('.winWallet').text(user.win_wallet);
+                    }
+
+                    $('.section-box .list').empty();
+
+                    if (response && response.datas && response.datas[0]) {
+                        let data = response.datas[0];
+                        let bankTitle = data.name_bank || "PIX Cadastrado";
+                        let accDisplay = data.stk || data.phone;
+                        let userHolder = data.name_user || "";
+
+                        $('.section-box .list').append(`
+                            <div class="saved-item">
+                                <div class="saved-item-left">
+                                    <div class="saved-item-icon">
+                                        <i class="fa-solid fa-building-columns"></i>
+                                    </div>
+                                    <div>
+                                        <div class="title">${bankTitle}</div>
+                                        <div class="sub">${accDisplay} ${userHolder ? '• ' + userHolder : ''}</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-check" style="color: var(--primary-emerald); font-size: 18px;"></i>
+                            </div>
+                        `);
+                    } else {
+                        $('.section-box .list').append(`
+                            <div style="text-align: center; color: var(--text-sub); font-size: 12px; padding: 10px;">
+                                Nenhuma conta bancária configurada ainda.
+                            </div>
+                        `);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            loadUserInfo();
+        });
+
+        /* Modal Toggle Handlers */
+        $('#openAddModal').click(() => {
+            $('#addModal').addClass('active');
+        });
+
+        $('#closeAddModal').click(() => {
+            $('#addModal').removeClass('active');
+        });
+
+        $('#tabPixBtn').click(function() {
+            $(this).addClass('active');
+            $('#tabBankBtn').removeClass('active');
+            $('#pixForm').show();
+            $('#bankForm').hide();
+        });
+
+        $('#tabBankBtn').click(function() {
+            $(this).addClass('active');
+            $('#tabPixBtn').removeClass('active');
+            $('#bankForm').show();
+            $('#pixForm').hide();
+        });
+
+        /* AJAX: Save PIX (Calls exact backend controller API) */
+        $('#savePixBtn').click(function() {
+            let $btn = $(this);
+            let stk = $('#pixKeyInput').val().trim();
+            let name_user = $('#pixNameInput').val().trim();
+            let email = $('#pixEmailInput').val().trim();
+            let tinh = $('#pixStateInput').val().trim();
+
+            if (!stk || !name_user || !email || !tinh) {
+                alertMess('Por favor, preencha todos os campos.', $btn);
+                return;
+            }
+
+            $btn.addClass('block-click');
+
+            $.ajax({
+                type: "POST",
+                url: "/api/webapi/addBank",
+                data: {
+                    name_bank: "PIX",
+                    name_user: name_user,
+                    stk: stk,
+                    email: email,
+                    tinh: tinh
+                },
+                dataType: "json",
+                success: function(res) {
+                    alertMess(res.message || 'Dados atualizados com sucesso!', $btn);
+                    $('#addModal').removeClass('active');
+                    loadUserInfo();
+                },
+                error: function() {
+                    alertMess('Erro ao conectar ao servidor.', $btn);
+                }
+            });
+        });
+
+        /* AJAX: Save BANK (Calls exact backend controller API) */
+        $('#saveBankBtn').click(function() {
+            let $btn = $(this);
+            let name_bank = $('#bankSelect').val();
+            let name_user = $('#bankUserVal').val().trim();
+            let stk = $('#bankAccVal').val().trim();
+            let email = $('#bankEmailVal').val().trim();
+            let tinh = $('#bankStateVal').val().trim();
+
+            if (!name_bank || !name_user || !stk || !email || !tinh) {
+                alertMess('Preencha todos os dados exigidos.', $btn);
+                return;
+            }
+
+            $btn.addClass('block-click');
+
+            $.ajax({
+                type: "POST",
+                url: "/api/webapi/addBank",
+                data: {
+                    name_bank: name_bank,
+                    name_user: name_user,
+                    stk: stk,
+                    email: email,
+                    tinh: tinh
+                },
+                dataType: "json",
+                success: function(res) {
+                    alertMess(res.message || 'Conta salva com sucesso!', $btn);
+                    $('#addModal').removeClass('active');
+                    loadUserInfo();
+                },
+                error: function() {
+                    alertMess('Erro ao salvar dados bancários.', $btn);
+                }
+            });
+        });
+
+        /* Withdraw Trigger */
         $('.withdrawal-btn').click(function (e) {
             e.preventDefault();
-            let money = $('#pix-amount').val().trim();
+            let money = $('.withdraw-amount-input').val().trim();
+            let $btn = $(this);
+
             if (money) {
+                $btn.addClass('block-click');
                 $.ajax({
                     type: "POST",
                     url: "/api/webapi/withdrawal",
                     data: { money: money },
                     dataType: "json",
                     success: function (response) {
-                        $(this).addClass('block-click');
                         if (response.status == true) {
                             $('.winWallet').text(response.win_wallet);
                             window.location.href = "/home";
                         }
-                        alertMess(response.message, $(this));
+                        alertMess(response.message, $btn);
+                    },
+                    error: function() {
+                        alertMess('Erro ao solicitar retirada', $btn);
                     }
                 });
             } else {
-                $(this).addClass('block-click');
-                alertMess('Por favor, insira o valor', $(this));
+                alertMess('Por favor, insira o valor', $btn);
             }
         });
-
-        // Popup logic
-        const withdrawalPopup = document.getElementById('withdrawal-popup');
-        function showWithdrawalPopup() {
-            if(withdrawalPopup) withdrawalPopup.style.display = "flex";
-        }
-        window.onload = showWithdrawalPopup;
-
-        // Sidebar JS
-        const menuToggle = document.getElementById("menuToggle");
-        const sidebar = document.getElementById("sidebar");
-        const closeSidebar = document.getElementById("closeSidebar");
-
-        if (menuToggle && sidebar && closeSidebar) {
-            menuToggle.addEventListener("click", (e) => {
-                e.stopPropagation();
-                sidebar.classList.add("open");
-            });
-            closeSidebar.addEventListener("click", () => sidebar.classList.remove("open"));
-        }
     </script>
 </body>
 
