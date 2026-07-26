@@ -1,430 +1,499 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manual UPI</title>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
-        integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-    </script>
-</head>
-
-<body>
-    <style>
-        html {
-            height: 100%;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        main {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            height: 100%;
-            max-width: 550px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: #f2f2f2;
-            padding: 6px;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 12px;
-            margin: 15px 10px;
-            width: calc(100% - 20px);
-        }
-
-        footer {
-            background-color: #f2f2f2;
-            padding: 6px;
-            text-align: center;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            margin: 0px 10px;
-            margin-top: auto;
-        }
-
-        .verification_form__root {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background: #f2f2f2;
-            padding: 15px 25px 25px;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 12px;
-            margin: 15px 10px;
-            width: calc(100% - 20px);
-        }
-
-        .verification_form__root label {
-            margin-top: 10px;
-            font-weight: 600;
-        }
-
-        .verification_form__root input {
-            margin-top: 5px;
-            padding: 10px 13px;
-            border-radius: 9px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
-
-        .verification_form__root input::placeholder {
-            font-size: 14px;
-        }
-
-        .verification_form__root button {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 9px;
-            border: 1px solid #ccc;
-            background-color: #1c4ff7;
-            background: linear-gradient(90deg,
-                    rgba(172, 10, 154, 1) 0%,
-                    rgba(0, 39, 255, 1) 100%);
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .verification_form__root button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        /* simple toast msg */
-        .msg {
-            position: fixed;
-            left: 50%;
-            top: 30px;
-            transform: translateX(-50%);
-            z-index: 9999;
-        }
-
-        .msg-content {
-            background: #000;
-            color: #fff;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 14px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-    </style>
-
-    <main>
-        <header>
-            <h2>Select Payment Gateway</h2>
-        </header>
-
-        <% if (extra) { %>
-            <div id="extra_div" style="color: red; margin: 0 10px;">
-                🎉 You Need to Pay 1499 rupess to Admin for sucessful widthraw !
-            </div>
-        <% } %>
-
-        <% if (ekyc) { %>
-            <div id="extra_div" style="color: red; margin: 0 10px;">
-                🎉 You Need to Pay 699 rupess to Admin for E-Kyc after E-KYC you will get your ammount in your Bank account!
-            </div>
-        <% } %>
-
-        <div class="verification_form__root">
-            <label>Amount</label>
-            <input type="text" value="<%=Amount%>" disabled />
-
-            <button id="lg_pay_btn" type="button">Pay With LG Pay</button>
-            <button id="bond_pay_btn" type="button">Pay With Bond Pay</button>
-        </div>
-
-        <footer>
-            <p></p>
-        </footer>
-    </main>
-
-    <script>
-        const alertMessage = (text) => {
-            const msg = document.createElement('div');
-            msg.className = 'msg';
-
-            const msgContent = document.createElement('div');
-            msgContent.className = 'msg-content';
-            msgContent.textContent = text;
-
-            msg.appendChild(msgContent);
-            document.body.appendChild(msg);
-
-            setTimeout(() => {
-                if (document.body.contains(msg)) {
-                    document.body.removeChild(msg);
-                }
-            }, 1500);
-        };
-
-        const amount = "<%=Amount%>";
-
-        const setLoading = (isLoading) => {
-            const lgBtn = document.getElementById("lg_pay_btn");
-            const bondBtn = document.getElementById("bond_pay_btn");
-
-            lgBtn.disabled = isLoading;
-            bondBtn.disabled = isLoading;
-
-            if (isLoading) {
-                lgBtn.innerText = "Processing...";
-                bondBtn.innerText = "Processing...";
-            } else {
-                lgBtn.innerText = "Pay With LG Pay";
-                bondBtn.innerText = "Pay With Bond Pay";
-            }
-        };
-
-        const callPaymentApi = async (url) => {
-            try {
-                setLoading(true);
-
-                const response = await axios.post(url, {
-                    money: amount
-                });
-
-                if (!response?.data) {
-                    alertMessage("Something went wrong!");
-                    setLoading(false);
-                    return;
-                }
-
-                if (response.data.status === false) {
-                    alertMessage(response.data.message || "Failed!");
-                    setLoading(false);
-                    return;
-                }
-
-                alertMessage(response.data.message || "Redirecting...");
-
-                if (response.data.paymentUrl) {
-                    window.location.href = response.data.paymentUrl 
-                    return;
-                }
-                
-                if (response.data.url) {
-                    window.location.href = response.data.url
-                    return;
-                }
-
-                alertMessage("Payment URL not found!");
-                setLoading(false);
-
-            } catch (error) {
-                console.error(error);
-                alertMessage("Something went wrong!");
-                setLoading(false);
-            }
-        };
-
-        document.getElementById("lg_pay_btn").addEventListener("click", () => {
-            callPaymentApi("/wallet/paynow/manual_upi_request");
-        });
-
-        document.getElementById("bond_pay_btn").addEventListener("click", () => {
-            callPaymentApi("/wallet/paynow/manual_upi_request/watch");
-        });
-    </script>
-
-</body>
-
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manual UPI</title>
+    <title>Select Payment Gateway</title>
 
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Axios -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
         integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</head>
-
-<body>
 
     <style>
-        html {
-            height: 100%;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: #05050f;
+            color: #ffffff;
             display: flex;
-            flex-direction: column;
-            height: 100%;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
         }
 
         main {
+            width: 100%;
+            max-width: 440px;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            height: 100%;
-            max-width: 550px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
+        /* HEADER */
         header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: #f2f2f2;
-            padding: 6px;
-            margin: 15px 10px;
-            border-radius: 12px;
-        }
-
-        footer {
-            background-color: #f2f2f2;
-            padding: 6px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 24px;
             text-align: center;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            margin: 0px 10px;
-            margin-top: auto;
+            position: relative;
+            backdrop-filter: blur(10px);
         }
 
-        .verification_form__root {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background: #f2f2f2;
-            padding: 15px 25px 25px;
-            margin: 15px 10px;
+        .header-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.4);
             border-radius: 12px;
-        }
-
-        .verification_form__root label {
-            font-weight: 600;
-        }
-
-        .verification_form__root input {
-            padding: 10px 13px;
-            border-radius: 9px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
-
-        /* UPI SECTION */
-        .upi-container {
             display: flex;
-            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            color: #10b981;
+            font-size: 20px;
+            position: absolute;
+            left: 20px;
+            top: 20px;
+        }
+
+        header h2 {
+            font-size: 20px;
+            font-weight: 600;
             margin-top: 10px;
         }
 
-        .upi-box {
-            flex: 1;
-            background: #fff;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            transition: 0.2s;
+        header p {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: 5px;
         }
 
-        .upi-box:hover {
-            border-color: #1c4ff7;
-            transform: scale(1.03);
+        /* CARD MAIN CONTAINER */
+        .content-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .upi-box img {
-               width: 144px;
-               height: 69px;
+        /* AMOUNT INPUT BOX */
+        .amount-section label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ffffff;
         }
 
-        .upi-box p {
-            margin-top: 8px;
+        .amount-input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid #2563eb;
+            border-radius: 14px;
+            padding: 12px 16px;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.15);
+        }
+
+        .currency-symbol {
+            font-size: 18px;
+            color: #ffffff;
+            margin-right: 12px;
+            font-weight: bold;
+        }
+
+        .amount-input-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .edit-icon {
+            color: #64748b;
+            background: rgba(255, 255, 255, 0.05);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* PAYMENT METHOD HEADER */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
             font-weight: 600;
         }
 
-        .upi-note {
-            margin-top: 12px;
-            font-size: 13px;
-            color: #333;
+        .secure-tag {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        /* TOAST */
+        /* PAYMENT CARDS CONTAINER */
+        .upi-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .upi-card {
+            background: #0a0c16;
+            border-radius: 16px;
+            padding: 16px 12px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* JAZZCASH SPECIFIC */
+        .upi-card.jazzcash {
+            border: 1px solid #059669;
+            box-shadow: inset 0 0 15px rgba(5, 150, 105, 0.05);
+        }
+
+        /* EASYPAISA SPECIFIC */
+        .upi-card.easypaisa {
+            border: 1px solid #7c3aed;
+            box-shadow: inset 0 0 15px rgba(124, 58, 237, 0.05);
+        }
+
+        .upi-card:hover {
+            transform: translateY(-3px);
+        }
+
+        /* BADGE */
+        .hot-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-bottom-left-radius: 8px;
+        }
+
+        /* LOGO */
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            margin-top: 5px;
+            margin-bottom: 12px;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .card-subtitle {
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 4px;
+            margin-bottom: 16px;
+        }
+
+        /* FEATURES ICON GRID */
+        .features-grid {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 16px;
+            padding: 0 4px;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .feature-icon-box {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .jazzcash .feature-icon-box {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .easypaisa .feature-icon-box {
+            background: rgba(168, 85, 247, 0.15);
+            color: #a855f7;
+        }
+
+        .feature-item span {
+            font-size: 9px;
+            color: #94a3b8;
+        }
+
+        /* PAY BUTTONS */
+        .pay-btn {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .jazzcash .pay-btn {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .easypaisa .pay-btn {
+            background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+        }
+
+        .pay-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* FOOTER CARD */
+        footer {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lock-icon-box {
+            width: 36px;
+            height: 36px;
+            background: rgba(245, 158, 11, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f59e0b;
+            font-size: 14px;
+        }
+
+        .footer-text h4 {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .footer-text p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .footer-right-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(139, 92, 246, 0.15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b5cf6;
+            font-size: 14px;
+        }
+
+        /* TOAST NOTIFICATION */
         .msg {
             position: fixed;
             left: 50%;
-            top: 30px;
+            top: 20px;
             transform: translateX(-50%);
             z-index: 9999;
         }
 
         .msg-content {
-            background: #000;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 14px;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
         }
     </style>
+</head>
+
+<body>
 
     <main>
+        <!-- Header -->
         <header>
+            <div class="header-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
             <h2>Select Payment Gateway</h2>
+            <p>Choose your preferred payment method</p>
         </header>
 
-        <div class="verification_form__root">
-            <label>Amount</label>
-            <input type="text" value="<%= Amount %>" disabled />
-
-            <!-- UPI OPTIONS -->
-            <!-- UPI OPTIONS -->
-            <div class="upi-container">
-                <div class="upi-box" id="upi1">
-                    <img src="/images/Jazz.jpeg" alt="UPI 1">
-                    <!-- <p>JAZZ </p>
-                     <p>Click here for Payment </p> -->
+        <!-- Main Card Section -->
+        <div class="content-card">
+            <!-- Amount Input -->
+            <div class="amount-section">
+                <label>Amount</label>
+                <div class="amount-input-box">
+                    <span class="currency-symbol">₹</span>
+                    <input type="text" value="<%= Amount %>" disabled />
+                    <div class="edit-icon">
+                        <i class="fa-solid fa-pen"></i>
+                    </div>
                 </div>
-
-                 <div class="upi-box" id="upi3">
-                    <img src="/images/Easypaisa.jpeg" alt="UPI 2">
-                    <!-- <p>UPI 2</p> -->
-                </div>
-
-           
-                <!-- <div class="upi-box" id="upi2">
-                    <img src="/images/upi.png" alt="UPI 3">
-                    <p>UPI 3</p>
-                </div>  -->
             </div>
 
-            <!-- <div class="upi-note">
-                <p><strong>Note:</strong> In case of payment failure, please select UPI 1 or UPI 2.</p>
-                <p><strong>नोट:</strong> पेमेंट फेल होने की स्थिति में कृपया UPI 1 या UPI 2 का चयन करें।</p>
-            </div> -->
+            <!-- Payment Method Title -->
+            <div class="section-title">
+                <div class="title-left">
+                    <i class="fa-regular fa-credit-card"></i>
+                    <span>Select Payment Method</span>
+                </div>
+                <div class="secure-tag">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>100% Secure</span>
+                </div>
+            </div>
+
+            <!-- UPI / Gateway Container -->
+            <div class="upi-container">
+                <!-- JazzCash Card -->
+                <div class="upi-card jazzcash">
+                    <div class="hot-badge">HOT</div>
+                    <img src="/images/Jazz.jpeg" alt="JazzCash" class="brand-logo" />
+                    <div class="card-title">JAZZCASH</div>
+                    <div class="card-subtitle">Fast • Secure • Reliable</div>
+
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon-box"><i class="fa-solid fa-bolt"></i></div>
+                            <span>Instant</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-box"><i class="fa-solid fa-shield"></i></div>
+                            <span>Secure</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-box"><i class="fa-solid fa-headset"></i></div>
+                            <span>Support</span>
+                        </div>
+                    </div>
+
+                    <button class="pay-btn" id="upi1">
+                        Pay Now <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- EasyPaisa Card -->
+                <div class="upi-card easypaisa">
+                    <div class="hot-badge">HOT</div>
+                    <img src="/images/Easypaisa.jpeg" alt="EasyPaisa" class="brand-logo" />
+                    <div class="card-title">EASYPAISA</div>
+                    <div class="card-subtitle">Fast • Secure • Reliable</div>
+
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon-box"><i class="fa-solid fa-bolt"></i></div>
+                            <span>Instant</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-box"><i class="fa-solid fa-shield"></i></div>
+                            <span>Secure</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-box"><i class="fa-solid fa-headset"></i></div>
+                            <span>Support</span>
+                        </div>
+                    </div>
+
+                    <button class="pay-btn" id="upi3">
+                        Pay Now <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <footer></footer>
+        <!-- Footer -->
+        <footer>
+            <div class="footer-left">
+                <div class="lock-icon-box">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div class="footer-text">
+                    <h4>Secure Payment</h4>
+                    <p>Your payment information is safe with us</p>
+                </div>
+            </div>
+            <div class="footer-right-icon">
+                <i class="fa-solid fa-shield"></i>
+            </div>
+        </footer>
     </main>
 
     <script>
@@ -481,10 +550,9 @@
 
         // CLICK EVENTS
         document.getElementById("upi1").addEventListener("click", () => {
-            callPaymentApi("/wallet/paynow/manual_upi_request"); // LG PAY
+            callPaymentApi("/wallet/paynow/manual_upi_request"); 
         });
 
-    
         document.getElementById("upi3").addEventListener("click", () => {
             callPaymentApi("/wallet/paynow/watch_now"); 
         });
