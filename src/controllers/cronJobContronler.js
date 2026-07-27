@@ -7,6 +7,12 @@ const async = require('async');
 
 
 const cronJobGame1p = (io) => {
+
+if (process.env.NODE_APP_INSTANCE != "0") {
+        console.log("Cron skipped on instance:", process.env.NODE_APP_INSTANCE);
+        return;
+    }
+
   cron.schedule('*/1 * * * *', async () => {
     await winGoController.addWinGo(1);
     await winGoController.handlingWinGo1P(1);
