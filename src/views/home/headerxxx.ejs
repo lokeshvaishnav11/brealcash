@@ -1,6 +1,5 @@
 <!--====== Header Start ======-->
 <style>
-  
 .purple-home__nav-placeholder[data-v-6666ec94] {
     height: 1.17333rem
 }
@@ -96,7 +95,8 @@
     gap: .16rem;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
-    margin-left: auto
+    margin-left: auto;
+    padding-right: .2rem;
 }
 
 .purple-home__nav-right[data-v-6666ec94] .img {
@@ -104,8 +104,24 @@
     height: .46667rem!important
 }
 
-.purple-home__nav-right[data-v-6666ec94] .languageName {
-    color: #f6dfff!important
+/* 🔥 DEPOSIT BUTTON STYLING 🔥 */
+.purple-home__nav-right[data-v-6666ec94] .depositBtn {
+    background: linear-gradient(95deg, #FB8466 3%, #BD5BD4 30%, #7473FA 65%, #53B2FA 103%);
+    color: #ffffff !important;
+    font-size: .3rem;
+    font-weight: 700;
+    padding: .12rem .32rem;
+    border-radius: .3rem;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: transform 0.1s ease;
+}
+
+.purple-home__nav-right[data-v-6666ec94] .depositBtn:active {
+    transform: scale(0.95);
 }
 
 .purple-home__nav-chip[data-v-6666ec94] {
@@ -195,19 +211,21 @@
     background: linear-gradient(95deg,#FB8466 3%,#BD5BD4 30%,#7473FA 65%,#53B2FA 103%) padding-box,linear-gradient(95deg,#a1edff,#3131b9,#fcf5ff,#363bb5,#3d49be,#4a64b4,#efe0ff,#6363da,#ffb184) border-box;
     color: #fff
 }
-
 </style>
+
 <header style="<%= money ? 'margin-bottom:0px;' : 'margin-bottom:0px;' %>">
     <div data-v-6666ec94="" class="purple-home__nav">
         <img data-v-6666ec94="" src="/assets/png/navBg-5e3a04fa.webp" class="purple-home__nav-bg">
-        <!-- 已登录：左(余额) 中(logo) 右(下载+语言) -->
+        
+        <!-- Left Balance Chip -->
         <div data-v-6666ec94="" class="purple-home__nav-left purple-home__nav-left--login">
             <div onclick="window.location.href='/wallet/recharge'" data-v-6666ec94="" class="purple-home__nav-chip">
-                <!-- <img :src="getIcons('home', 'iconBalance')" class="purple-home__nav-chip__coin" /> -->
                 <span data-v-6666ec94="" class="purple-home__nav-chip__amount">R$<%= money %></span>
                 <img data-v-6666ec94="" src="/assets/png/iconAdd-73a75fb5.webp" class="purple-home__nav-chip__add">
             </div>
         </div>
+
+        <!-- Center Logo -->
         <div data-v-6666ec94="" class="purple-home__nav-center">
             <img
                 data-v-6666ec94=""
@@ -216,54 +234,37 @@
                 class="purple-home__nav-logo"
             >
         </div>
+
+        <!-- Right Deposit Button -->
         <div data-v-6666ec94="" class="purple-home__nav-right">
-            <div data-v-6666ec94="" class="purple-home__nav-download">
-                <img data-v-6666ec94="" src="/assets/png/iconDownload-5263a25b.webp">
-            </div>
-            <div data-v-8610bd15="" data-v-6666ec94="">
-                <div data-v-8610bd15="" class="right">
-                    <img
-                        data-v-8610bd15=""
-                        class="img"
-                        data-origin="/assets/png/en-4c6eba8e.webp"
-                        src="/assets/png/en-4c6eba8e.webp"
-                    >
-                    <span data-v-8610bd15="" class="languageName">EN</span>
-                </div>
-                <!--teleport start-->
-                <!--teleport end-->
-            </div>
+            <span onclick="window.location.href='/wallet/recharge'" class="depositBtn">
+                Deposit
+            </span>
         </div>
     </div>
 </header>
+
 <script>
-    // Show Referral Code Pop-up
     function showReferralPopup() {
       document.getElementById('referralModal').style.display = "block";
     }
   
-    // Close the Referral Code Pop-up
     function closeReferralPopup() {
       document.getElementById('referralModal').style.display = "none";
     }
   
-    // Copy the Referral Code
     function copyReferralCode() {
       const copyText = document.getElementById("referralCodeInput");
       copyText.select();
-      copyText.setSelectionRange(0, 99999); // For mobile devices
+      copyText.setSelectionRange(0, 99999);
       document.execCommand("copy");
-  
-      // Optional: Alert user that the code was copied
       alert("Referral code copied: " + copyText.value);
     }
-    function signOut() {
-    // Delete the token and auth cookies
-    deleteCookie('token');
-    deleteCookie('auth');
 
-    // Optionally, redirect the user to the login page or home page
-    window.location.href = '/home';  // or any other page
-}
+    function signOut() {
+      deleteCookie('token');
+      deleteCookie('auth');
+      window.location.href = '/home';
+    }
 </script>
 <!--====== Header End ======-->
