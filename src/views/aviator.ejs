@@ -566,7 +566,7 @@
                                             <div class="column-2">
                                                 <button
                                                     class="btn btn-transparent previous-history d-flex align-items-center mx-auto fw-normal">
-                                                    <%= item.amount %>BLR
+                                                    <%= item.amount %>BRL
                                                 </button>
                                             </div>
                                             <div class="column-3">
@@ -582,7 +582,7 @@
                                             </div>
                                             <div class="column-4 fw-normal">
                                                 <% if (parseFloat(item.crash)>= 1) { %>
-                                                    <%= item.amount * item.crash %>BLR
+                                                    <%= item.amount * item.crash %>BRL
                                                         <% } %>
                                             </div>
                                         </div>
@@ -763,7 +763,7 @@
                                     <div class="bet-block">
                                         <div class="spinner">
                                             <div class="input">
-                                                <input id="bet_amount" value="10.00" type="text" class="main_bet_amount"
+                                                <input id="bet_amount" value="1.00" type="text" class="main_bet_amount"
                                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                                             </div>
                                             <div class="qty-buttons">
@@ -784,23 +784,25 @@
                                         <div class="bets-opt-list">
                                             <button class="btn btn-secondary btn-sm bet-opt main_amount_btn"
                                                 onclick="select_direct_bet_amount(this);"><span
-                                                    class="amt">5</span><span class="currency">BLR</span></button>
+                                                    class="amt">5</span><span class="currency">BRL</span></button>
                                             <button class="btn btn-secondary btn-sm bet-opt main_amount_btn"
                                                 onclick="select_direct_bet_amount(this);"><span
-                                                    class="amt">10</span><span class="currency">BLR</span></button>
+                                                    class="amt">10</span><span class="currency">BRL</span></button>
                                             <button class="btn btn-secondary btn-sm bet-opt main_amount_btn"
                                                 onclick="select_direct_bet_amount(this);"><span
-                                                    class="amt">15</span><span class="currency">BLR</span></button>
+                                                    class="amt">15</span><span class="currency">BRL</span></button>
                                             <button class="btn btn-secondary btn-sm bet-opt main_amount_btn"
                                                 onclick="select_direct_bet_amount(this);"><span
-                                                    class="amt">20</span><span class="currency">BLR</span></button>
+                                                    class="amt">20</span><span class="currency">BRL</span></button>
                                         </div>
                                     </div>
                                     <div class="buttons-block" id="bet_button">
                                         <button
                                             class="btn btn-success bet font-family-title ng-star-inserted main_bet_btn"
                                             onclick="bet_now(this, 0);" id="main_bet_now"><label
-                                                class="font-family-title label">Aposta</label></button>
+                                                class="font-family-title label">Aposta</label>
+                                            <div class="font-family-title label" id="main_bet_display">1.00 BRL</div>
+                                        </button>
                                     </div>
                                     <div class="buttons-block" id="cancle_button" style="display: none;">
                                         <div class="btn-tooltip f-14 mb-1" id="waiting" style="display: none;">Waiting
@@ -879,7 +881,7 @@
                                     <div class="bet-block">
                                         <div class="spinner">
                                             <div class="input">
-                                                <input id="bet_amount" value="10.00" class="extra_bet_amount"
+                                                <input id="bet_amount" value="1.00" class="extra_bet_amount"
                                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                                             </div>
                                             <div class="qty-buttons">
@@ -900,23 +902,25 @@
                                         <div class="bets-opt-list">
                                             <button class="btn btn-secondary btn-sm bet-opt extra_amount_btn"
                                                 onclick="select_direct_bet_amount(this);"><span
-                                                    class="amt">5</span><span class="currency">BLR</span></button>
+                                                    class="amt">5</span><span class="currency">BRL</span></button>
                                             <button class="btn btn-secondary btn-sm bet-opt extra_amount_btn"
                                                 onclick="select_direct_bet_amount(this);"><span
-                                                    class="amt">10</span><span class="currency">BLR</span></button>
+                                                    class="amt">10</span><span class="currency">BRL</span></button>
                                             <button class="btn btn-secondary btn-sm bet-opt extra_amount_btn"
                                                 onclick="select_direct_bet_amount(this);"><span
-                                                    class="amt">15</span><span class="currency">BLR</span></button>
+                                                    class="amt">15</span><span class="currency">BRL</span></button>
                                             <button class="btn btn-secondary btn-sm bet-opt extra_amount_btn"
                                                 onclick="select_direct_bet_amount(this);"><span
-                                                    class="amt">20</span><span class="currency">BLR</span></button>
+                                                    class="amt">20</span><span class="currency">BRL</span></button>
                                         </div>
                                     </div>
                                     <div class="buttons-block" id="bet_button">
                                         <button
                                             class="btn btn-success bet font-family-title ng-star-inserted main_bet_btn"
                                             id="extra_bet_now" onclick="bet_now(this, 1);"><label
-                                                class="font-family-title label">Aposta</label></button>
+                                                class="font-family-title label">Aposta</label>
+                                            <div class="font-family-title label" id="extra_bet_display">1.00 BRL</div>
+                                        </button>
                                     </div>
                                     <div class="buttons-block" id="cancle_button" style="display: none;">
                                         <div class="btn-tooltip f-14 mb-1" id="waiting" style="display: none;">Waiting
@@ -1001,15 +1005,15 @@
                         <ul class="list-unstyled limit-rules">
                             <li class="list-group-item">
                                 Minimum Bet:
-                                <span class="badge badge-success px-2 font-family-number">10 BLR </span>
+                                <span class="badge badge-success px-2 font-family-number">1 BRL </span>
                             </li>
                             <li class="list-group-item">
                                 Maximum Bet:
-                                <span class="badge badge-success px-2 font-family-number">8000 BLR </span>
+                                <span class="badge badge-success px-2 font-family-number">8000 BRL </span>
                             </li>
                             <li class="list-group-item">
                                 Maximum win for one bet:
-                                <span class="badge badge-success px-2 font-family-number">800000 BLR </span>
+                                <span class="badge badge-success px-2 font-family-number">800000 BRL </span>
                             </li>
                         </ul>
                     </div>
@@ -1231,6 +1235,13 @@
             var max_bet_amount = parseFloat('<%= settings.maxBetAmount %>');
             var current_game_data = `<%= currentGameData %>`;
             var phone = '<%= phone %>'
+        </script>
+        <script>
+            // 🔗 Force the client-side minimum bet to 1, regardless of what the
+            // backend settings.minBetAmount still says. Without this, the bet
+            // logic in aviatorbyapp.js falls back to min_bet_amount (still 10)
+            // whenever the typed/selected amount is below it.
+            min_bet_amount = 1;
         </script>
 
 
@@ -1569,8 +1580,56 @@
     }, 1000);
 </script>
 
+        <style>
+            #main_bet_display,
+            #extra_bet_display {
+                display: block !important;
+                text-align: center !important;
+                font-size: 12px !important;
+                font-weight: 600 !important;
+                margin-top: 2px !important;
+                opacity: 0.9 !important;
+            }
+        </style>
+        <script>
+            // ===== Live bet-amount display inside the Aposta buttons =====
+            function formatBetAmount(val) {
+                var num = parseFloat(val);
+                if (isNaN(num)) num = 0;
+                return num.toFixed(2) + ' BRL';
+            }
 
+            function updateMainBetDisplay() {
+                var el = document.getElementById('main_bet_display');
+                var input = document.querySelector('.main_bet_amount');
+                if (el && input) el.textContent = formatBetAmount(input.value);
+            }
 
+            function updateExtraBetDisplay() {
+                var el = document.getElementById('extra_bet_display');
+                var input = document.querySelector('.extra_bet_amount');
+                if (el && input) el.textContent = formatBetAmount(input.value);
+            }
+
+            $(document).ready(function () {
+                updateMainBetDisplay();
+                updateExtraBetDisplay();
+            });
+
+            // typing directly into the amount field
+            $(document).on('input change', '.main_bet_amount', updateMainBetDisplay);
+            $(document).on('input change', '.extra_bet_amount', updateExtraBetDisplay);
+
+            // +/- buttons and preset amount buttons (5/10/15/20 BRL) update the
+            // input via the existing aviatorbyapp.js handlers, so we just re-read
+            // the field a moment after the click to reflect whatever it lands on.
+            $(document).on('click', '#main_plus_btn, #main_minus_btn, #main_bet_section .main_amount_btn', function () {
+                setTimeout(updateMainBetDisplay, 50);
+            });
+            $(document).on('click', '#extra_plus_btn, #extra_minus_btn, #extra_bet_section .extra_amount_btn', function () {
+                setTimeout(updateExtraBetDisplay, 50);
+            });
+        </script>
 
 </body>
 
