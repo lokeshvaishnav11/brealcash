@@ -777,11 +777,10 @@
                 <img src="/images/banners/logon.png" alt="Logo Aviator" class="header-logo" />
             </div>
             <div class="header-right">
-                <button class="deposit-balance-btn">
-                    <i class="fa-solid fa-wallet"></i>
-                    R$<span id="balance-display">0.00</span> DEPÓSITO <!-- Added space -->
-                </button>
-
+               <button class="deposit-balance-btn">
+    <i class="fa-solid fa-wallet"></i>
+    R$<span id="balance-display"><%= money || '0.00' %></span> DEPÓSITO
+</button>
             </div>
             <!-- <div class="menu-icon" id="menuToggle">☰</div> -->
         </header>
@@ -929,7 +928,7 @@
             try {
                 const response = await axios.get("/api/webapi/GetUserInfo"); // Ensure this endpoint is correct
                 const user = response?.data?.data;
-                const balance = user?.money_user ?? 0;
+                const balance = user?.win_wallet ?? 0;
                 balanceDisplay.textContent = parseFloat(balance).toFixed(2); // Format to 2 decimal places
             } catch (error) {
                 console.error("Erro ao buscar saldo:", error);

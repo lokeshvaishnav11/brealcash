@@ -281,6 +281,11 @@ const rechargePage = async (req, res) => {
                 username = user.name_user;
                 ekyc = user.ekyc;
 
+
+                // console.log(calculatedMoney,money,username,"FGHJKLGHJ")
+
+
+
                 // Optional: Log fetched data for verification
                 // console.log("Recharge Page - User Found:", { username, money, ekyc });
             } else {
@@ -295,6 +300,8 @@ const rechargePage = async (req, res) => {
         // --- End of adapted logic ---
 
         // Render the recharge template, passing MinimumMoney AND the user data (or defaults)
+                        console.log(money,username,"FGHJKLGHJ")
+
         return res.render("wallet/recharge.ejs", {
             MinimumMoney: process.env.MINIMUM_MONEY, // Keep this
             username: username,                     // Pass username (or null)
