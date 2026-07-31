@@ -3,6 +3,23 @@
 
 <head>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1043790708397630');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1043790708397630&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
         <link rel="shortcut icon" href="/images/banners/logo.png" type="image/x-icon">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="google" content="notranslate">
@@ -199,7 +216,7 @@
         }
 
         function validateForm(username, password, checkbox,text) {
-            if (!username || !invite || !checkbox || !password) {
+            if (!username  || !checkbox || !password) {
                 alertMess(text);
                 return false;
             } else {
@@ -233,7 +250,7 @@
             let username = $('#username').val().trim();
            // let otp = $('#otp').val().trim();
             let password = $('#password').val().trim();
-            let invite = $('#invite').val().trim();
+            let invite = "";
             let cpf = $('#cpf').val().trim();
             // let telegram = $('#telegram').val().trim();
             //let checkbox = $('.van-checkbox__icon').hasClass('van-checkbox__icon--checked');
