@@ -1006,38 +1006,191 @@ button:hover {
 
 <% if (money !== false) { %>
 
-
-
-<!-- 2. Bonus Popup -->
+<!-- 1. Bonus Popup -->
 <div id="bonusPopup">
   <div style="position:relative; width:92%; max-width:380px;">
 
-    <!-- Cross button top right -->
     <button onclick="closeBonus()" style="
-      position: absolute;
-      top: -14px;
-      right: -14px;
-      background: #333;
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      cursor: pointer;
-      color: #fff;
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
+      position:absolute;
+      top:-14px;
+      right:-14px;
+      background:#333;
+      border:none;
+      border-radius:50%;
+      width:32px;
+      height:32px;
+      cursor:pointer;
+      color:#fff;
+      font-size:20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:10;
     ">&times;</button>
 
-    <!-- Bonus Image -->
-  <img src="/images/bdep.jpeg"
-     onclick="window.location.href='/wallet/recharge'"
-     style="width:100%; border-radius:16px; display:block; cursor:pointer;" />
+    <img
+      src="/images/bdep.jpeg"
+      onclick="window.location.href='/wallet/recharge'"
+      style="
+        width:100%;
+        border-radius:16px;
+        display:block;
+        cursor:pointer;
+      "
+    />
+
+     <button
+      onclick="window.location.href='/wallet/recharge'"
+      class="vibrate-btn"
+    >
+      💰 DEPOSITAR AGORA
+    </button>
 
   </div>
 </div>
+
+
+<!-- 2. Second Popup -->
+<div id="secondPopup" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  z-index:99999;
+  align-items:center;
+  justify-content:center;
+">
+
+  <div style="
+    position:relative;
+    width:92%;
+    max-width:380px;
+    text-align:center;
+  ">
+
+    <!-- Close -->
+    <button onclick="closeSecondPopup()" style="
+      position:absolute;
+      top:-14px;
+      right:-14px;
+      background:#333;
+      border:none;
+      border-radius:50%;
+      width:32px;
+      height:32px;
+      cursor:pointer;
+      color:#fff;
+      font-size:20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:10;
+    ">&times;</button>
+
+    <!-- Second Image -->
+    <img
+      src="/images/botpop.jpeg"
+      style="
+        width:100%;
+        border-radius:16px;
+        display:block;
+      "
+    />
+
+    <!-- Vibrating Button -->
+    <button
+ onclick="window.open('https://akamster.com', '_blank')"
+      class="vibrate-btn"
+    >
+      🔔 OBTER PREVISÃO
+    </button>
+
+  </div>
+</div>
+
+
+<style>
+
+.vibrate-btn {
+  margin-top:15px;
+  width:85%;
+  padding:14px 20px;
+  border:none;
+  border-radius:10px;
+  background:#28a745;
+  color:#fff;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+
+  animation:vibrate 0.35s infinite;
+}
+
+
+/* Vibrate / Shake Animation */
+@keyframes vibrate {
+
+  0% {
+    transform:translateX(0);
+  }
+
+  20% {
+    transform:translateX(-4px);
+  }
+
+  40% {
+    transform:translateX(4px);
+  }
+
+  60% {
+    transform:translateX(-4px);
+  }
+
+  80% {
+    transform:translateX(4px);
+  }
+
+  100% {
+    transform:translateX(0);
+  }
+
+}
+
+</style>
+
+
+<script>
+
+function closeBonus() {
+
+  // Pehla popup hide
+  const bonusPopup = document.getElementById("bonusPopup");
+
+  if (bonusPopup) {
+    bonusPopup.style.display = "none";
+  }
+
+  // Dusra popup show
+  const secondPopup = document.getElementById("secondPopup");
+
+  if (secondPopup) {
+    secondPopup.style.display = "flex";
+  }
+}
+
+
+function closeSecondPopup() {
+
+  const secondPopup = document.getElementById("secondPopup");
+
+  if (secondPopup) {
+    secondPopup.style.display = "none";
+  }
+
+}
+
+</script>
 
 <% } %>
 
