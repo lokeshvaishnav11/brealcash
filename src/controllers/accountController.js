@@ -65,6 +65,12 @@ const login = async (req, res) => {
          message: "ERROR!!!",
       })
    }
+    if (username.length <11) {
+      //!isNumber(username)
+      return res.status(200).json({
+         message: "ERROR!!!",
+      })
+   }
 
    try {
       const [rows] = await connection.query("SELECT * FROM users WHERE phone = ? AND password = ? ", [username, md5(pwd)])
