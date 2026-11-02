@@ -570,6 +570,7 @@ const nextCrash = async (req, res) => {
 
 
 
+
 const nextCrash2 = async (req, res) => {
     try {
         const now = new Date();
