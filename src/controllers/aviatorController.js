@@ -511,59 +511,80 @@ class MemoryCache {
 }
 
 // Module level — singleton, ek baar banta hai
-const crashCache = new MemoryCache({ ttl: 65, maxSize: 100 });
-const inFlight   = new Map();
+const crashCache = new MemoryCache({
+    ttl: 65,
+    maxSize: 100
+});
 
-setInterval(() => crashCache.cleanup(), 5 * 60 * 1000).unref();
+const inFlight = new Map();
+
+setInterval(() => {
+    crashCache.cleanup();
+}, 5 * 60 * 1000).unref();
 
 const nextCrash = async (req, res) => {
     try {
-        const now      = new Date();
-        const hours    = String(now.getHours()).padStart(2, '0');
-        const minutes  = String(now.getMinutes()).padStart(2, '0');
+        const now = new Date();
+
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
         const slotTime = `${hours}:${minutes}`;
         const cacheKey = `crash:${slotTime}`;
 
-        // Cache hit — zero DB call
+        // Check cached DB value
         const cached = crashCache.get(cacheKey);
+
         if (cached !== null) {
             return res.json(cached);
         }
 
-        // Cache miss — in-flight check (race condition safe)
+        // Avoid duplicate DB queries
         if (!inFlight.has(cacheKey)) {
             const dbPromise = (async () => {
-                const [rows] = await connection.execute(
-                    'SELECT crash_value FROM crash_predictions WHERE time_slot = ?',
-                    [slotTime]
-                );
+                try {
+                    const [rows] = await connection.execute(
+                        'SELECT crash_value FROM crash_predictions WHERE time_slot = ?',
+                        [slotTime]
+                    );
 
-                const value = rows.length && parseFloat(rows[0].crash_value) !== 0
-                    ? parseFloat(rows[0].crash_value)
-                    : parseFloat((Math.random() * 16).toFixed(2));
+                    const dbValue = rows.length
+                        ? Number(rows[0].crash_value)
+                        : 0;
 
-                crashCache.set(cacheKey, value, 65);
-                inFlight.delete(cacheKey);
-                return value;
+                    // Cache only valid DB values
+                    if (Number.isFinite(dbValue) && dbValue !== 0) {
+                        crashCache.set(cacheKey, dbValue, 65);
+                        return dbValue;
+                    }
+
+                    // No DB value: do not cache
+                    return null;
+
+                } finally {
+                    inFlight.delete(cacheKey);
+                }
             })();
 
             inFlight.set(cacheKey, dbPromise);
         }
 
-        const crashValue = await inFlight.get(cacheKey);
+        const dbValue = await inFlight.get(cacheKey);
 
-        res.json(crashValue);
+        // Generate fresh random value if DB has no valid value
+        const crashValue = dbValue !== null
+            ? dbValue
+            : Number((Math.random() * 10).toFixed(2));
 
-        // Previous slot cleanup — background mein
-        const prevDate    = new Date(now.getTime() - 60000);
-        const prevHours   = String(prevDate.getHours()).padStart(2, '0');
-        const prevMinutes = String(prevDate.getMinutes()).padStart(2, '0');
-        crashCache.delete(`crash:${prevHours}:${prevMinutes}`);
+        return res.json(crashValue);
 
     } catch (error) {
         console.error('[nextCrash] Error:', error);
+
         if (!res.headersSent) {
-            res.status(500).json({ error: 'Internal server error' });
+            return res.status(500).json({
+                error: 'Internal server error'
+            });
         }
     }
 };
